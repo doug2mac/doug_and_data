@@ -1,0 +1,238 @@
+---
+title: Bond Films
+author: Douglas MacDonald
+date: '2020-10-19'
+slug: index.en-us
+thumbnailImage: 'https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE'
+coverImage: 'https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE'
+thumbnailImagePosition: left
+categories:
+  - movies
+  - viz
+  - R
+  - analysis
+tags:
+  - R Markdown
+  - plot
+  - movies
+  - analysis
+keywords:
+  - tech
+---
+
+<!--more-->
+
+# Introduction 
+
+While quarantining and practicing social distancing, there has been a lot of time to watch new movies, TV series, and re-watch some favorite films of mine.
+A movie series that I recently began re-watching with friends, are the James Bond films.
+Questions immediately sprang up about which actor played "the best Bond" and arguments about the best James Bond film.
+So, I turn to data to determine which actor has been rated the highest in their portrayel of the MI6 secret agent, and which film viewers rated the best.
+
+# Get the data
+
+The first step in my analysis is to find the right data.
+[IMDB](https://www.imdb.com/) is a great place to start to gather this info.
+Previously, this required knowing a bit about web-scraping, and making several requests to the website.
+This is effective, but not the most _polite_ way to access data from a website that is providing a free service.
+Fortunately, IMDB has published a data-set that makes finding ratings of your favorite shows or files easier, without making several requests to their website.
+
+## The IMDB Data-Set
+
+The data-set can be found on IMDB's website [here](https://www.imdb.com/interfaces/).
+
+The format of the data is as follows (from the IMDB website):
+
+> Each dataset is contained in a gzipped, tab-separated-values (TSV) formatted file in the UTF-8 character set.
+> The first line in each file contains headers that describe what is in each column.
+> A ‘\N’ is used to denote that a particular field is missing or null for that title/name.
+
+It took a bit to parse out this data, and drill down to only the films/actors of interest.
+I may do another post later on displaying the data-pipelining behind this analysis.
+
+```{r setup, include=FALSE}
+## Exploratory ##
+library(tidyverse)
+library(ggtext)
+library(ggrepel)
+
+knitr::opts_knit$set(root.dir = '../../../')
+knitr::opts_chunk$set(message=FALSE)
+
+
+wikipedia <- read_csv('./data/wikipedia_clean.csv')
+
+title_basics <- feather::read_feather('./data/bond/bond_title_basics.feather')
+title_ratings <- feather::read_feather('./data/bond/bond_title_ratings.feather')
+title_crew <- feather::read_feather('./data/bond/bond_title_crew.feather')
+
+names_crew <- feather::read_feather('./data/bond/bond_title_crew.feather')
+
+title_basics %>% 
+    inner_join(title_ratings, by = 'tconst') %>%
+    inner_join(wikipedia, by = c('primaryTitle' = 'title')) -> df
+
+
+labels <- c(
+    `Daniel Craig` = "<img src='docs/craig.jpg' width='60' /><br>Daniel Craig",
+    `Sean Connery` = "<img src='docs/connery.jpg' width='60' /><br>Sean Connery",
+    `George Lazenby` = "<img src='docs/lazenby.jpg' width='60' /><br>Geroge Lazenby",
+    `Roger Moore` = "<img src='docs/moore.jpg' width='60' /><br>Roger Moore",
+    `Timothy Dalton` = "<img src='docs/dalton.jpg' width='60' /><br>Timothy Dalton",
+    `Pierce Brosnan` = "<img src='docs/brosnan.jpg' width='60' /><br>Pierce Brosnan"
+)
+
+width = 10
+height = 8
+```
+
+## James Bond films by lead actor
+
+Whenever a movie series lasts as long as James Bond, different actors play the lead role of the British secret agent. Viewers, immediately go to arguing who *was/is* the greatest James Bond in the franchise.
+
+Let's take a look at the ratings submitted to `IMDB`, on who was the best lead actor to star in a James Bond film.
+
+```{r films_by_actor, fig.height=10, fig.width=10}
+df %>% 
+    group_by(actor) %>% 
+    summarise(rating = round(mean(averageRating), 2)
+              ,year = min(year)) %>% 
+    arrange(desc(rating)) %>% 
+    ggplot(aes(x = rating, y = fct_reorder(actor, year), fill = rating, label = round(rating,2))) +
+        geom_col() +
+        geom_text(nudge_x = .5) + 
+        scale_y_discrete(name = NULL, labels = labels) +
+        guides(fill = FALSE) + 
+        theme(axis.text.y = element_markdown(lineheight = 1.2)) +
+        labs( title = 'Bond Films'
+             ,subtitle = 'Average Rating by Actor'
+             ,caption = 'Source: IMDB.com'
+             ,x = 'Average Rating')
+
+```
+
+```{r, include=FALSE}
+ggsave('./graphs/bond_lead_ratings.png', width = width, height = height)
+```
+
+According to the ratings found on `IMDB`, the highest rated actor is Daniel Craig, with an average rating of *7.28*, followed closely behind by Sean Connery at `7.13`. The worst actors (according to the average rating) were Pierce Brosnan at `6.55`, and Timothy Dalton at `6.65`.
+
+## Top Rated Films
+
+It is no surprise, when looking at the top rated leads, that films that Daniel Craig has starred in rank among the top rated films in the series. Casino Royale and Spectre (both films Craig starred in) come in at number 1 and 3 respectively, with Sean Connery accounting for the other 3 spots.
+
+```{r}
+df %>% 
+    group_by(title = originalTitle) %>% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %>%
+    mutate(title = fct_reorder(title, year)) %>% 
+    ggplot(aes(x = rating, y = title, fill = rating, label = rating)) + 
+    geom_col() + geom_text(nudge_x = .25) + guides(fill = FALSE) +
+    labs( x = 'Average Rating'
+         ,y = ''
+         ,title = 'Average Rating of Bond Films'
+         ,subtitle = 'Ordered by Release Year')
+```
+
+```{r, include = FALSE}
+ggsave('./graphs/bond_film_ratings.png', width = width, height = height)
+```
+
+```{r}
+
+df %>% 
+    arrange(desc(averageRating)) %>% 
+    filter(row_number() < 6) %>% 
+    group_by( Title = originalTitle
+             ,`Lead Actor` = actor) %>% 
+    summarise(`Average Rating` = round(mean(averageRating), 2)
+             ,Year = min(year)
+              ) %>%
+    arrange(desc(`Average Rating`)) %>% 
+    kableExtra::kable(caption = 'Top 5 rated James Bond films')
+```
+
+## Budget
+
+Bond films are notorious for their spectacular stunts, and massive explosions. Not surprisingly, this also means huge budgets for the films. As the years have gone on, the budgets have increased dramatically.
+
+The graph below displays the budget for each film, plotted against the year it was released, with the average rating of the film indicated by the color.
+
+I have adjusted for inflation, by scaling the budgets to equivalent 2005 USD.
+
+
+```{r}
+fit.1 <- lm(budget_adjusted ~ year, data = df)
+
+df %>% 
+    group_by(title = originalTitle) %>% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %>% 
+    ggplot(aes(x = year, y = budget
+             , size = rating, color = rating, label = title)) +
+        geom_abline( intercept = coef(fit.1)[1]
+                    ,slope = coef(fit.1)[2]
+                    ,color = 'Red'
+                    ,size = 1) +
+        geom_point() +
+        geom_text_repel(aes(x=year,y=budget,label=title)
+                , inherit.aes = FALSE
+                ) +
+        guides(size=FALSE) +
+        labs( y = 'Budget (USD Millions)'
+             ,x = 'Year'
+             ,color = 'Rating')
+
+```
+
+```{r, include = FALSE}
+ggsave(filename = './graphs/bond_budget_year.png', width = width, height = height)
+ggsave(filename = './bond_films_cover.png', width = 6, height = 4)
+```
+
+
+There is a clear positive relationship between release year, and budget, with the release year accounting for over `86%` of the variance in budget. On average, for every year that goes by, the budget for a James Bond film increases $3.335 Million dollars!
+
+Interesting to note, however, that there is no relationship between budget, and average rating for a film.
+
+```{r}
+fit.2 <- lm(budget ~ averageRating, data = df)
+
+df %>% 
+    group_by(title = originalTitle) %>% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %>% 
+    ggplot(aes(x = rating, y = budget
+             , size = rating
+             , color = rating
+             , label = title)) +
+        geom_abline( intercept = coef(fit.2)[1]
+                    ,slope = coef(fit.2)[2]
+                    ,color = 'Red'
+                    ,size = 1) +
+        geom_point() +
+        geom_text_repel(aes(x=rating,y=budget,label=title)
+                , inherit.aes = FALSE
+                ) +
+        guides(size=FALSE) +
+        labs( y = 'Budget (USD Millions)'
+             ,x = 'Average Rating'
+             ,color = 'Rating')
+
+```
+
+```{r, include=FALSE}
+ggsave(filename = './graphs/bond_budget_rating.png', width = width, height = height)
+```
+
+
+## Conclusion
+
+There is a ton of information in the `IMDB` dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.
