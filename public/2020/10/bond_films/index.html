@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.76.5 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Douglas MacDonald">
+<meta name="keywords" content="tech">
+<meta name="description" content="
+
+
+
+
+
+">
+
+
+<meta property="og:description" content="
+
+
+
+
+
+">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bond Films">
+<meta name="twitter:title" content="Bond Films">
+<meta property="og:url" content="https://douganddata.com/2020/10/bond_films/">
+<meta property="twitter:url" content="https://douganddata.com/2020/10/bond_films/">
+<meta property="og:site_name" content="Doug and Data">
+<meta property="og:description" content="
+
+
+
+
+
+">
+<meta name="twitter:description" content="
+
+
+
+
+
+">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-10-19T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-10-19T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="movies">
+    
+      <meta property="article:section" content="viz">
+    
+      <meta property="article:section" content="R">
+    
+      <meta property="article:section" content="analysis">
+    
+  
+  
+    
+      <meta property="article:tag" content="R Markdown">
+    
+      <meta property="article:tag" content="plot">
+    
+      <meta property="article:tag" content="movies">
+    
+      <meta property="article:tag" content="analysis">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@dmac_sci">
+
+
+  <meta name="twitter:creator" content="@dmac_sci">
+
+
+
+
+
+
+  <meta property="og:image" content="https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE">
+  <meta property="twitter:image" content="https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE">
+
+
+  <meta property="og:image" content="https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE">
+  <meta property="twitter:image" content="https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE">
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=640">
+
+
+    <title>Bond Films</title>
+
+    <link rel="icon" href="images/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://douganddata.com/2020/10/bond_films/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://douganddata.com/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://douganddata.com/">Doug and Data</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://douganddata.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://douganddata.com/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Douglas MacDonald</h4>
+        
+          <h5 class="sidebar-profile-bio">A data scientist in Higher Education</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/about/cv.html">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-id-card"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/doug2mac" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/14469473/douglas-macdonald" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/dmac_sci" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+  <div class="post-header-cover
+              text-left
+              "
+       style="background-image:url('https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE')"
+       data-behavior="4">
+    
+      <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Bond Films
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-10-19T00:00:00Z">
+        
+  October 19, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://douganddata.com/categories/movies">movies</a>, 
+    
+      <a class="category-link" href="https://douganddata.com/categories/viz">viz</a>, 
+    
+      <a class="category-link" href="https://douganddata.com/categories/r">R</a>, 
+    
+      <a class="category-link" href="https://douganddata.com/categories/analysis">analysis</a>
+    
+  
+
+  </div>
+
+</div>
+    
+  </div>
+
+
+      <div id="main" data-behavior="4"
+        class="hasCover
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>While quarantining and practicing social distancing, there has been a lot of time to watch new movies, TV series, and re-watch some favorite films of mine.
+A movie series that I recently began re-watching with friends, are the James Bond films.
+Questions immediately sprang up about which actor played “the best Bond” and arguments about the best James Bond film.
+So, I turn to data to determine which actor has been rated the highest in their portrayel of the MI6 secret agent, and which film viewers rated the best.</p>
+</div>
+<div id="get-the-data" class="section level1">
+<h1>Get the data</h1>
+<p>The first step in my analysis is to find the right data.
+<a href="https://www.imdb.com/">IMDB</a> is a great place to start to gather this info.
+Previously, this required knowing a bit about web-scraping, and making several requests to the website.
+This is effective, but not the most <em>polite</em> way to access data from a website that is providing a free service.
+Fortunately, IMDB has published a data-set that makes finding ratings of your favorite shows or files easier, without making several requests to their website.</p>
+<div id="the-imdb-data-set" class="section level2">
+<h2>The IMDB Data-Set</h2>
+<p>The data-set can be found on IMDB’s website <a href="https://www.imdb.com/interfaces/">here</a>.</p>
+<p>The format of the data is as follows (from the IMDB website):</p>
+<blockquote>
+<p>Each dataset is contained in a gzipped, tab-separated-values (TSV) formatted file in the UTF-8 character set.
+The first line in each file contains headers that describe what is in each column.
+A ‘’ is used to denote that a particular field is missing or null for that title/name.</p>
+</blockquote>
+<p>It took a bit to parse out this data, and drill down to only the films/actors of interest.
+I may do another post later on displaying the data-pipelining behind this analysis.</p>
+</div>
+<div id="james-bond-films-by-lead-actor" class="section level2">
+<h2>James Bond films by lead actor</h2>
+<p>Whenever a movie series lasts as long as James Bond, different actors play the lead role of the British secret agent. Viewers, immediately go to arguing who <em>was/is</em> the greatest James Bond in the franchise.</p>
+<p>Let’s take a look at the ratings submitted to <code>IMDB</code>, on who was the best lead actor to star in a James Bond film.</p>
+<pre class="r"><code>df %&gt;% 
+    group_by(actor) %&gt;% 
+    summarise(rating = round(mean(averageRating), 2)
+              ,year = min(year)) %&gt;% 
+    arrange(desc(rating)) %&gt;% 
+    ggplot(aes(x = rating, y = fct_reorder(actor, year), fill = rating, label = round(rating,2))) +
+        geom_col() +
+        geom_text(nudge_x = .5) + 
+        scale_y_discrete(name = NULL, labels = labels) +
+        guides(fill = FALSE) + 
+        theme(axis.text.y = element_markdown(lineheight = 1.2)) +
+        labs( title = &#39;Bond Films&#39;
+             ,subtitle = &#39;Average Rating by Actor&#39;
+             ,caption = &#39;Source: IMDB.com&#39;
+             ,x = &#39;Average Rating&#39;)</code></pre>
+<p><img src="https://douganddata.com/post/2020-10-19-bond-films/index.en-us_files/figure-html/films_by_actor-1.png" width="960" /></p>
+<p>According to the ratings found on <code>IMDB</code>, the highest rated actor is Daniel Craig, with an average rating of <em>7.28</em>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
+</div>
+<div id="top-rated-films" class="section level2">
+<h2>Top Rated Films</h2>
+<p>It is no surprise, when looking at the top rated leads, that films that Daniel Craig has starred in rank among the top rated films in the series. Casino Royale and Spectre (both films Craig starred in) come in at number 1 and 3 respectively, with Sean Connery accounting for the other 3 spots.</p>
+<pre class="r"><code>df %&gt;% 
+    group_by(title = originalTitle) %&gt;% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %&gt;%
+    mutate(title = fct_reorder(title, year)) %&gt;% 
+    ggplot(aes(x = rating, y = title, fill = rating, label = rating)) + 
+    geom_col() + geom_text(nudge_x = .25) + guides(fill = FALSE) +
+    labs( x = &#39;Average Rating&#39;
+         ,y = &#39;&#39;
+         ,title = &#39;Average Rating of Bond Films&#39;
+         ,subtitle = &#39;Ordered by Release Year&#39;)</code></pre>
+<p><img src="https://douganddata.com/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre class="r"><code>df %&gt;% 
+    arrange(desc(averageRating)) %&gt;% 
+    filter(row_number() &lt; 6) %&gt;% 
+    group_by( Title = originalTitle
+             ,`Lead Actor` = actor) %&gt;% 
+    summarise(`Average Rating` = round(mean(averageRating), 2)
+             ,Year = min(year)
+              ) %&gt;%
+    arrange(desc(`Average Rating`)) %&gt;% 
+    kableExtra::kable(caption = &#39;Top 5 rated James Bond films&#39;)</code></pre>
+<table>
+<caption>
+<span id="tab:unnamed-chunk-4">Table 1: </span>Top 5 rated James Bond films
+</caption>
+<thead>
+<tr>
+<th style="text-align:left;">
+Title
+</th>
+<th style="text-align:left;">
+Lead Actor
+</th>
+<th style="text-align:right;">
+Average Rating
+</th>
+<th style="text-align:right;">
+Year
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Casino Royale
+</td>
+<td style="text-align:left;">
+Daniel Craig
+</td>
+<td style="text-align:right;">
+8.0
+</td>
+<td style="text-align:right;">
+2006
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Goldfinger
+</td>
+<td style="text-align:left;">
+Sean Connery
+</td>
+<td style="text-align:right;">
+7.7
+</td>
+<td style="text-align:right;">
+1964
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Skyfall
+</td>
+<td style="text-align:left;">
+Daniel Craig
+</td>
+<td style="text-align:right;">
+7.7
+</td>
+<td style="text-align:right;">
+2012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+From Russia with Love
+</td>
+<td style="text-align:left;">
+Sean Connery
+</td>
+<td style="text-align:right;">
+7.4
+</td>
+<td style="text-align:right;">
+1963
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Dr. No
+</td>
+<td style="text-align:left;">
+Sean Connery
+</td>
+<td style="text-align:right;">
+7.2
+</td>
+<td style="text-align:right;">
+1962
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="budget" class="section level2">
+<h2>Budget</h2>
+<p>Bond films are notorious for their spectacular stunts, and massive explosions. Not surprisingly, this also means huge budgets for the films. As the years have gone on, the budgets have increased dramatically.</p>
+<p>The graph below displays the budget for each film, plotted against the year it was released, with the average rating of the film indicated by the color.</p>
+<p>I have adjusted for inflation, by scaling the budgets to equivalent 2005 USD.</p>
+<pre class="r"><code>fit.1 &lt;- lm(budget_adjusted ~ year, data = df)
+
+df %&gt;% 
+    group_by(title = originalTitle) %&gt;% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %&gt;% 
+    ggplot(aes(x = year, y = budget
+             , size = rating, color = rating, label = title)) +
+        geom_abline( intercept = coef(fit.1)[1]
+                    ,slope = coef(fit.1)[2]
+                    ,color = &#39;Red&#39;
+                    ,size = 1) +
+        geom_point() +
+        geom_text_repel(aes(x=year,y=budget,label=title)
+                , inherit.aes = FALSE
+                ) +
+        guides(size=FALSE) +
+        labs( y = &#39;Budget (USD Millions)&#39;
+             ,x = &#39;Year&#39;
+             ,color = &#39;Rating&#39;)</code></pre>
+<p><img src="https://douganddata.com/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>There is a clear positive relationship between release year, and budget, with the release year accounting for over <code>86%</code> of the variance in budget. On average, for every year that goes by, the budget for a James Bond film increases $3.335 Million dollars!</p>
+<p>Interesting to note, however, that there is no relationship between budget, and average rating for a film.</p>
+<pre class="r"><code>fit.2 &lt;- lm(budget ~ averageRating, data = df)
+
+df %&gt;% 
+    group_by(title = originalTitle) %&gt;% 
+    summarise(rating = round(mean(averageRating), 2)
+             ,year = min(year)
+             ,budget = mean(budget_adjusted)
+              ) %&gt;% 
+    ggplot(aes(x = rating, y = budget
+             , size = rating
+             , color = rating
+             , label = title)) +
+        geom_abline( intercept = coef(fit.2)[1]
+                    ,slope = coef(fit.2)[2]
+                    ,color = &#39;Red&#39;
+                    ,size = 1) +
+        geom_point() +
+        geom_text_repel(aes(x=rating,y=budget,label=title)
+                , inherit.aes = FALSE
+                ) +
+        guides(size=FALSE) +
+        labs( y = &#39;Budget (USD Millions)&#39;
+             ,x = &#39;Average Rating&#39;
+             ,color = &#39;Rating&#39;)</code></pre>
+<p><img src="https://douganddata.com/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>There is a ton of information in the <code>IMDB</code> dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.</p>
+</div>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/r-markdown/">R Markdown</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/plot/">plot</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/movies/">movies</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/analysis/">analysis</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Douglas MacDonald. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://douganddata.com/2020/10/bond_films/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fbond_films%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fbond_films%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fbond_films%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Douglas MacDonald</h4>
+    
+      <div id="about-card-bio">A data scientist in Higher Education</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Data Scientist
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Philadelphia, PA
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://douganddata.com/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://douganddata.com/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/douganddata.com\/2020\/10\/bond_films\/';
+          
+            this.page.identifier = '\/2020\/10\/bond_films\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

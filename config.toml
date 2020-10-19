@@ -53,47 +53,53 @@ canonifyurls = true
   name = "Home"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-home\"></i>"
   url = "/"
+
+
 [[menu.main]]
-  weight = 2
+  weight = 3
   identifier = "categories"
   name = "Categories"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-bookmark\"></i>"
   url = "/categories"
+
 [[menu.main]]
-  weight = 3
+  weight = 4
   identifier = "tags"
   name = "Tags"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-tags\"></i>"
   url = "/tags"
+
 [[menu.main]]
-  weight = 4
+  weight = 5
   identifier = "archives"
   name = "Archives"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-archive\"></i>"
   url = "/archives"
+
+
 [[menu.main]]
-  weight = 5
+  weight = 1
   identifier = "about"
   name = "About"
-  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-question\"></i>"
-  url = "/#about"
+  pre = "<i class=\"sidebar-button-icon fa fa-lg fa-id-card\"></i>"
+  url = "https://doug2mac.github.io/doug_cv/index.html"
 
 [[menu.links]]
-  weight = 1
+  weight = 2
   identifier = "github"
   name = "GitHub"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-github\"></i>"
   url = "https://github.com/doug2mac"
 
 [[menu.links]]
-  weight = 2
+  weight = 3
   identifier = "stackoverflow"
   name = "Stack Overflow"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-stack-overflow\"></i>"
   url = "https://stackoverflow.com/users/14469473/douglas-macdonald"
 
 [[menu.links]]
-  weight = 2
+  weight = 4
   identifier = "twitter"
   name = "Twitter"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-twitter\"></i>"
