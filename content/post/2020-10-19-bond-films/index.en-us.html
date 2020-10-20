@@ -55,7 +55,7 @@ I may do another post later on displaying the data-pipelining behind this analys
 <div id="james-bond-films-by-lead-actor" class="section level2">
 <h2>James Bond films by lead actor</h2>
 <p>Whenever a movie series lasts as long as James Bond, different actors play the lead role of the British secret agent. Viewers, immediately go to arguing who <em>was/is</em> the greatest James Bond in the franchise.</p>
-<p>Let’s take a look at the ratings submitted to <code>IMDB</code>, on who was the best lead actor to star in a James Bond film.</p>
+<p>Let’s take a look at the ratings submitted to IMDB, on who was the best lead actor to star in a James Bond film.</p>
 <pre class="r"><code>df %&gt;% 
     group_by(actor) %&gt;% 
     summarise(rating = round(mean(averageRating), 2)
@@ -72,7 +72,7 @@ I may do another post later on displaying the data-pipelining behind this analys
              ,caption = &#39;Source: IMDB.com&#39;
              ,x = &#39;Average Rating&#39;)</code></pre>
 <p><img src="/post/2020-10-19-bond-films/index.en-us_files/figure-html/films_by_actor-1.png" width="960" /></p>
-<p>According to the ratings found on <code>IMDB</code>, the highest rated actor is Daniel Craig, with an average rating of <em>7.28</em>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
+<p>According to the ratings found on IMDB, the highest rated actor is Daniel Craig, with an average rating of <code>7.28</code>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
 </div>
 <div id="top-rated-films" class="section level2">
 <h2>Top Rated Films</h2>
