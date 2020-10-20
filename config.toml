@@ -82,7 +82,7 @@ canonifyurls = true
   identifier = "about"
   name = "About"
   pre = "<i class=\"sidebar-button-icon fa fa-lg fa-id-card\"></i>"
-  url = "https://doug2mac.github.io/doug_cv/index.html"
+  url = "https://raw.githubusercontent.com/doug2mac/doug_cv/main/cv.pdf"
 
 [[menu.links]]
   weight = 2
