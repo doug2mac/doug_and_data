@@ -1,0 +1,139 @@
+---
+title: Notifications in Data Pipelines
+author: Douglas MacDonald
+date: '2020-10-27'
+slug: index.en-us
+thumbnailImage: 'https://lh3.googleusercontent.com/CzM55mwAzJRhWBxpyU7OJ9FeY0lJx3qJBb870fq08yShn-z_et6ZHqk0Qjs-vfz1Z-AKzpbp0t4TL5AHo3LW6N9ZCb0Nk2Y1gSgq3eCpomcUFkioT_9FRorm4fgqS5up6gcJ0fjfu2jQjFbsoRGflANXjiqD13FfAWWXMESKHnyPJKN9Zj4lg7kDmU256k3VU9aCMkgBunRTN7K7nR-v4m9R8Skm5FEhwuFyj6_jH39m6xPMJ1nWYVYk5gc6v8C6nNndIuB_2M7SD42PXtd6xWXPoVcgoJiMYBRmGfJwVN53xxxjYnF7p_O1JA4p7OL5tTBbWgJVsRKPNK_Dc04wDmhZzFF-dhkRWdM3L5kpMMfvHukEiz1SRWBQ_Tp77xPEVx5hIIjy7jvbbAjzD7gN-JqT1Mc-Xl-pYKhq9ySZ9hbNawmq_IZxO6xRuh2FmB6uZuzislEcSXH9BJcMkMlahI-lnmmjpeFiAT6lI1LpSgc0IZv4X3fPIcN6WhTi7QZNhaYPu1cgIo1Rj-eUCWj6roOzo_HNYsAM2BdbooNDyLxUgpUOpYohjpToxXCfZQVeYUqkBcy-YCWcIU216ljBi7Wv6cVxvKz68mO75E0x5wbdcqIwXfzJ6fDS90ns4WrklXkCk7-0bXOZAM7cI_wMrnPZRCH0uOlchaf3TZjhs2n9B-SS-yQcXQ=s512-no?authuser=2'
+thumbnailImagePosition: left
+categories:
+  - R
+  - Data Engineering
+tags:
+  - R
+  - data engineering
+  - notifications
+  - alerts
+keywords:
+  - tech
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>It can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it <em>is</em> an important aspect of any recurring or scheduled data-pipeline.</p>
+<p>Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).</p>
+<p>These steps may all be in a single script when you start designing a process, but as your pipelines grow and complexity increases, it will be far easier to navigate separate files for each step in the process.</p>
+<p>There are three methods I recommend to get started (in the following order):</p>
+<ul>
+<li>Audio Notifications</li>
+<li>Log files</li>
+<li>Message Notifications</li>
+</ul>
+</div>
+<div id="audio-notifications" class="section level1">
+<h1>Audio Notifications</h1>
+<p>There is a great package in <em>R</em> called <a href="https://cran.r-project.org/web/packages/beepr/beepr.pdf">beepr</a> that can be utilized to send sound notifications through your computer. This is helpful when first creating a long data-processing script that you are still developing.</p>
+<p>Instead of repeatedly checking if a process is done, you can utilize <em>beepr</em> and be notified by one of their many great sounds. My personal favorite is the recognizable “fanfare” theme, it is just long enough for me to hear it if I am concentrating on something else.</p>
+<pre class="r"><code># if you need to install the package from CRAN
+# install.packages(&#39;beepr&#39;)
+
+for(i in 1:10){
+  print(i)
+  Sys.sleep(2)
+}
+
+beepr::beep(3) # for the fanfare theme</code></pre>
+</div>
+<div id="log-files" class="section level1">
+<h1>Log files</h1>
+<p>Log files are a method to record a history of your data-pipeline process.</p>
+<p>You may have seen individuals do this by hand, by opening a file, writing out text, inserting a new line, then closing the file:</p>
+<pre class="r"><code># simulate some data
+test_data &lt;- as.data.frame(list(x=rnorm(100)))
+
+# open a connection to the log file
+log_file &lt;- file(&quot;log.txt&quot;)
+
+# write notification
+write(paste0(&#39;There are &#39;, nrow(test_data), &#39; rows of data&#39;), log_file, append = TRUE)
+
+# close the connection
+close(log_file)</code></pre>
+<p>I prefer to use the package <a href="https://cran.r-project.org/web/packages/log4r/log4r.pdf">log4r</a>. It can be extended to log activity to the console, or a flat file, time stamps are created by default, and specific logging levels can be set for each output. For example, only <code>WARN</code> level logs are written to the console, while both <code>INFO</code> and <code>WARN</code> levels logs are written to a file.</p>
+<p>Below is a toy example of how I use <em>log4r</em> and <a href="https://cran.r-project.org/web/packages/glue/glue.pdf">glue</a> (an incredible package that can evaluate <code>R</code> code in a text string) to log pipelines:</p>
+<pre class="r"><code># install log4r if necessary
+# install.packages(&#39;log4r&#39;)
+# install glue if necessary
+# install.packages(&#39;glue)
+library(log4r)
+
+# create a logfile that is a plain text document
+log &lt;- logger(appenders = file_appender(&#39;logfile.log&#39;))
+
+# simulate some data
+test_data &lt;- as.data.frame(list(x=rnorm(100)))
+
+# write out the log information, at the appropriate level
+info(log, glue::glue(&quot;There are {nrow(test_data)} rows of data.&quot;))</code></pre>
+</div>
+<div id="message-notifications" class="section level1">
+<h1>Message Notifications</h1>
+<p>The previous methods outlined work well for the one designing the pipeline to receive feedback on their data-pipeline process. However, other members of your unit or organization would often benefit from having visibility into the data-pipeline process. I have found one of the easiest ways to implement a messaging system to other users, is to utilize existing familiar communication channels.</p>
+<p>Previously we have used <a href="https://slack.com/">Slack</a>, but recently transitioned to <a href="https://www.microsoft.com/en-us/microsoft-365/microsoft-teams/group-chat-software">Teams</a> by Microsoft. There are packages for <code>R</code> that you can utilize to connect to either your organization’s <em>Slack</em> instance (<a href="https://github.com/hrbrmstr/slackr">slackr</a>) or Microsoft Teams (<a href="https://github.com/wwwjk366/teamr">teamr</a>).</p>
+<p>For Microsoft Teams, there are a few steps to get started:</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://support.microsoft.com/en-us/office/create-a-team-from-scratch-174adf5f-846b-4780-b765-de1a0a737e2b">Create a Team</a> that will receive the notifications for this data-pipeline, or use an existing team. In this example I use the Team <em>BOTS</em>.</li>
+</ol>
+<div class="figure">
+<img src="notifications_000_team.png" alt="" />
+<p class="caption">BOTS Team</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li><a href="https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook">Connect the webhook</a> to the Team created in step 1. This is done by clicking the three dots <code>...</code> in one of the Team channels, then selecting <em>connectors</em>. From the list, select the <em>Incoming Webhook</em> connector to add to your channel.</li>
+</ol>
+<div class="figure">
+<img src="notifications_001_webhook.png" alt="" />
+<p class="caption">Incoming Webhook Connector</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Configure the Webhook Connector by clicking the <em>Configure</em> button once it has been added. Give your connector a name, and upload an image if desired. in my example I named my connector <em>BOT</em>. After the connector has been created, you should be able to copy the Webhook Connector URL for this connector. Copy this URL to use later in your scripts.</li>
+</ol>
+<div class="figure">
+<img src="notifications_002_configure.png" alt="" />
+<p class="caption">Configure Webhook Connector</p>
+</div>
+<p>Below is an example of a notification function I send after data is downloaded from our Salesforce instance in a data-pipeline that updates our website:</p>
+<pre class="r"><code># install the teamr package if necessary
+# install.packages(&#39;teamr&#39;)
+# install glue if necessary
+
+library(teamr)
+
+# set your organization&#39;s web-hook
+cc &lt;- connector_card$new(hookurl = &quot;HOOK URL FROM STEP 3&quot;)
+
+# define a message function
+teams_message &lt;- function(title, text, color = &quot;#00800&quot;){
+  cc$text(text)
+  cc$title(title)
+  cc$color(color)
+  cc$send()
+}
+
+# post the message to the channel
+teams_message( text = glue::glue(&#39;Update: Salesforce Download Complete. {length(skipped_objects)} skipped.&#39;)
+              ,title = &#39;Website Refresh:&#39;)</code></pre>
+<p>The result is the following message posted in the <em>BOTS</em> channel, from my connecter <em>BOT</em>:</p>
+<div class="figure">
+<img src="notifications_003_message.png" alt="" />
+<p class="caption">BOT Connector Message</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>We covered three main methods of notifying a user at the end of major steps of a data-pipeline process. The first method is recommended for long-running processes that you are actively developing. The second method is recommended for processes that are recurring or scheduled, that you wish to record a history of. The second <em>and</em> third methods are recommended for those data-pipeline processes that require more visibility than just the developer maintaining the process. At the end of each step, a method to provide feedback to those that monitor the data-pipeline can save you from missing a misbehaving pipeline for several days, and ensure that the integrity of the process.</p>
+</div>
