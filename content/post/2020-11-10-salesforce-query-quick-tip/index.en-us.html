@@ -1,0 +1,42 @@
+---
+title: Salesforce Query Quick Tip
+author: Douglas MacDonald
+date: '2020-11-10'
+slug: index.en-us
+thumbnailImage: 'https://lh3.googleusercontent.com/pw/ACtC-3eTS7AvscvZiJ3opxnxpNPrMHL33IsvqbDlqabHac2JAvjwCQ5GP6Mpzlc4AhEntbDYBUGWpGjQAqzYTmRjgxuLyssS8JD3fkLdEx_qpdp8NY8850y20qQB0_c2sgLOtvn5HZ7SlEcWDC-Y59f93Rh0=w600-h400-no?authuser=0'
+thumbnailImagePosition: left
+categories:
+  - R
+  - Data Engineering
+tags:
+  - analysis
+  - tips
+  - R
+keywords:
+  - tech
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<!--more-->
+<p><a href="https://en.wikipedia.org/wiki/Salesforce">Salesforce</a> is a very common Customer Relationship Management (CRM) platform.</p>
+<p>It is an extremely popular CRM platform, and is nothing short of a giant for CRM software in the for-profit world and is rapidly expanding in the non-profit world as well.</p>
+<p>If you spend enough time interacting with Salesforce, and the data that resides within the platform, then you have likely come across Salesforce’s own Salesforce Object Query Language (<a href="https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql.htm">SOQL</a>).</p>
+<p>SOQL is a great way to quickly query necessary data from one, or several objects within your Salesforce instance. However, if you utilize Salesforce long enough in your organization, you may run into a common issue when querying specific fields.</p>
+<p>Within Salesforce are objects and fields. Objects are similar to tables in a database, they hold data specific to an area of your organization. There are standard objects (Contacts, Accounts, Leads) and custom objects. Fields are similar to columns in a table. There are also standard fields (Id, Name, Email) and custom fields.</p>
+<p>A great way to interact with Salesforce data, is to write SOQL against a specific object. This can be accomplished through the Open Source project <a href="https://github.com/forceworkbench/forceworkbench">Force Workbench</a>. This is a free and Open Source project supported by the Open Source community, but please note that this is not an official Salesforce product.</p>
+<p>There are also packages available in Python (<a href="https://github.com/simple-salesforce/simple-salesforce">Simple Salesforce</a>) and R (<a href="https://github.com/StevenMMortimer/salesforcer">salesforcer</a>) that can connect to your organization’s Salesforce instance, and execute SOQL (among many other things!) through the Salesforce Platform APIs.</p>
+<p>An issue that I have run into, is when a custom field is added to an existing object in Salesforce. Data parsers in popular data-analysis programming languages do a great job of guessing the column types of data based upon the first N number of rows in the data. When a custom field is added to a Salesforce object, and data is not back-filled for historical records that exist, the wrong data type can be inferred. For example, when using the <em>salesforcer</em> package in R, the first 2,000+ rows in an object have missing data for a custom field (let’s call it *Custom_Field__c* ). When guessing the data type of this column, R will likely store it as <em>logical</em>. The issue, is that if any rows are not of the type <em>logical</em> after the first 2,000+, they will not be stored correctly, or the data will be lost. A quick fix that I have used, is to first sort the data by the <em>CreatedDate</em>, with the most recently created data first (using the <em>ORDER BY</em> clause and <em>DESC</em> function). An example is provided below:</p>
+<pre class="sql"><code>SELECT Id
+     , Name
+     , CreatedDate
+     , Custom_Field__c
+
+FROM Account
+
+ORDER BY CreatedDate DESC</code></pre>
+<p>This will ensure that the most recently created data is read in first, and less likely to be missing. The data-parser will then guess the column type based upon this valid data. This work-around has saved me hours from specifying the column types by hand, or requiring <em>R</em> to read a very large number of rows before guessing the column types.</p>
+<p>Happy data sleuthing!</p>
