@@ -12,29 +12,6 @@ keywords:
   - tech
 ---
 
-<!-- Loading mathjax macro -->
-<!-- Load mathjax -->
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
-    <!-- MathJax configuration -->
-    <script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
-            processEscapes: true,
-            processEnvironments: true
-        },
-        // Center justify equations in code and markdown cells. Elsewhere
-        // we use CSS to left justify single line equations in code cells.
-        displayAlign: 'center',
-        "HTML-CSS": {
-            styles: {'.MathJax_Display': {"margin": 0}},
-            linebreaks: { automatic: true }
-        }
-    });
-    </script>
-    <!-- End of mathjax configuration -->
-
 <!--more-->
 Many quasi-experimental analyses will utilize propensity score matching to estimate the average treatment effect (ATE) of an intervention on a sample population. Doing this accounts for relevant confounding factors by the included covariates. A first step in this process is to create a diagram that describes the overall causal model. The diagram below is an example of how variables can be laid out, and how they influence the overall causal model.
 
@@ -106,3 +83,8 @@ as.data.frame(list(p,treated,control)
 ### Model Specification
 
 Whether the researcher is estimating the ATE or the ATT, they are striving for balance between the covariates. The researcher may need to alter their model specification in order to achieve a proper balance (squared, cubic, interaction terms, etc.). Furthermore, the researcher must examine the range of weights that are being applied. If an individual has an exceptionally low propensity, then their weighting may become astronomically high. Extremely high weights can be recoded and brought into a more reasonable range.
+
+{{ if and (not .Params.disable_mathjax) (or (in (string .Content) "\\") (in (string .Content) "$")) }}
+<script src="{{ "/js/math-code.js" | relURL }}"></script>
+<script async src="{{ .Site.Params.MathJaxCDN | default "//cdnjs.cloudflare.com/ajax/libs" }}/mathjax/{{ .Site.Params.MathJaxVersion | default "2.7.5" }}/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+{{ end }}
