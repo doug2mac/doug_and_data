@@ -12,6 +12,29 @@ keywords:
   - tech
 ---
 
+<!-- Loading mathjax macro -->
+<!-- Load mathjax -->
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+    <!-- MathJax configuration -->
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+            processEscapes: true,
+            processEnvironments: true
+        },
+        // Center justify equations in code and markdown cells. Elsewhere
+        // we use CSS to left justify single line equations in code cells.
+        displayAlign: 'center',
+        "HTML-CSS": {
+            styles: {'.MathJax_Display': {"margin": 0}},
+            linebreaks: { automatic: true }
+        }
+    });
+    </script>
+    <!-- End of mathjax configuration -->
+
 <!--more-->
 Many quasi-experimental analyses will utilize propensity score matching to estimate the average treatment effect (ATE) of an intervention on a sample population. Doing this accounts for relevant confounding factors by the included covariates. A first step in this process is to create a diagram that describes the overall causal model. The diagram below is an example of how variables can be laid out, and how they influence the overall causal model.
 
