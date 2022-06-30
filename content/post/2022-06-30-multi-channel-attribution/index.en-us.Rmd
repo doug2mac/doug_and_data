@@ -3,8 +3,6 @@ title: Multi-Channel Attribution
 author: Doug MacDonald
 date: '2022-03-01'
 slug: multi-channel-attribution
-thumbnailImage: '/mta_image.jpeg'
-coverImage: '/mta_image.jpeg'
 thumbnailImagePosition: left
 categories:
   - analysis
