@@ -1,0 +1,94 @@
+---
+title: A Predictive Model of Ice and Fire
+author: Douglas MacDonald
+date: '2020-11-12'
+draft: true
+slug: got_ice_and_fire
+thumbnailImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fv1.escapistmagazine.com%2Fforums%2Fread%2F7.285127-Game-of-Thrones-Map-Sequence-Intended-for-Scene-Transitions&psig=AOvVaw3v0ut0ZwPP5OSkHLGpu9uf&ust=1605324032062000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjWsp_I_uwCFQAAAAAdAAAAABAD'
+thumbnailImagePosition: left
+categories:
+  - analysis
+  - viz
+  - R
+tags:
+  - analysis
+  - tv
+  - R Markdown
+  - R
+keywords:
+  - tech
+---
+
+
+
+<!--more-->
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+</div>
+<div id="the-data-set" class="section level1">
+<h1>The Data Set</h1>
+<p>The data set that is used in this analysis is the beautiful data set assembled by <a href="https://github.com/jeffreylancaster/game-of-thrones">Jeffrey Lancaster</a>. In the <a href="https://github.com/jeffreylancaster/game-of-thrones">Github Repo</a>, you will find the data folder. The data is broken out into several <strong>JSON</strong> files, each containing information about different aspects of the series. The data I have chosen to use in this analysis can be found in the <code>episodes.json</code> and the <code>wordcount.json</code> files. These files contain data down to the scene level for all episodes in the series, as well counts of the numbers of words spoken by each character.</p>
+</div>
+<div id="characters" class="section level1">
+<h1>Characters</h1>
+<p>There are over 500 unique characters in the Game of Thrones series according to our data. We can explore those characters that have appeared most often in the series. The graph below depicts the top 30 characters that have appeared the most often in a scene.</p>
+<p><img src="/post/2020-11-12-a-predictive-model-of-ice-and-fire/index.en-us_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>There are some interesting aspects about the plot above. For example, <strong>Drogon</strong>, is the 14th character to appear most often in the series. However, <strong>Drogon</strong> has no lines in the series. We can go a step further, and examine the number of words spoken by each character.</p>
+<p><img src="/post/2020-11-12-a-predictive-model-of-ice-and-fire/index.en-us_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Examining The plot above, we see that Tyrion Lannister has the most words spoken by a large margin. This does not come as a surprise, since if you are familiar with the series, Tyrion’s scenes are quite long-winded. I did not expect Cersei Lannister to come in second, but when you consider the number of episodes a character appears in, it does make sense!</p>
+</div>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<p>My goal with this project was to create a model that could estimate the average rating for a given episode.
+The theory, is that several factors play into an episodes rating. Certain characters (on average) are more or less appealing to the audience, and when they receive more screen time, or have a more active role in the episode (indicated here by the number of words spoken) it will influence the episodes rating.</p>
+<pre class="r"><code>wordcount %&gt;% 
+  group_by(name) %&gt;% 
+  summarise(words_spoken = sum(count)) %&gt;% 
+  arrange(desc(words_spoken)) %&gt;% 
+  head(30) %&gt;%
+  pull(name) -&gt; top30
+
+## create a summarized list of episodes 
+wordcount %&gt;% 
+  filter(name %in% top30) %&gt;% 
+  select(seasonNum, episodeNum, name, count, episodeTitle) %&gt;% 
+  pivot_wider(id_cols = c(seasonNum, episodeNum, episodeTitle)
+              , names_from = name
+              , values_from = count
+              , values_fn = sum) %&gt;% 
+  inner_join(
+     ratings
+   , by = c(&quot;seasonNum&quot;,&quot;episodeNum&quot;)
+  ) -&gt; df
+
+df %&gt;%
+  select_if(is.numeric) %&gt;% 
+  replace(is.na(.), 0) %&gt;%
+  mutate(rank_rating = rank(rating)) -&gt; df
+
+df %&gt;%
+  mutate_all(as.double) %&gt;%
+  as.matrix() %&gt;%
+  Hmisc::rcorr() -&gt; df_cor
+
+flattenCorrMatrix &lt;- function(cormat, pmat) {
+  ut &lt;- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+
+df_cormat &lt;- flattenCorrMatrix(df_cor$r, df_cor$P)
+
+df_cormat %&gt;%
+  filter(column == &#39;rank_rating&#39;) %&gt;%
+  filter(p &lt;= .05)</code></pre>
+<pre><code>##                row      column        cor            p
+## 1        seasonNum rank_rating -0.2619215 2.519057e-02
+## 2       episodeNum rank_rating  0.2769026 1.771135e-02
+## 3 Brienne of Tarth rank_rating -0.2366594 4.381529e-02
+## 4           rating rank_rating  0.7836013 2.220446e-16</code></pre>
+</div>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.101.0 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="author" content="Douglas MacDonald">
+<meta name="keywords" content="tech">
+<meta name="description" content="IntroductionIt can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it is an important aspect of any recurring or scheduled data-pipeline.
+Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).">
+
+
+<meta property="og:description" content="IntroductionIt can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it is an important aspect of any recurring or scheduled data-pipeline.
+Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notifications in Data Pipelines">
+<meta name="twitter:title" content="Notifications in Data Pipelines">
+<meta property="og:url" content="https://douganddata.com/2020/10/notifications_in_pipelines/">
+<meta property="twitter:url" content="https://douganddata.com/2020/10/notifications_in_pipelines/">
+<meta property="og:site_name" content="Doug and Data">
+<meta property="og:description" content="IntroductionIt can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it is an important aspect of any recurring or scheduled data-pipeline.
+Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).">
+<meta name="twitter:description" content="IntroductionIt can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it is an important aspect of any recurring or scheduled data-pipeline.
+Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2020-10-27T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2020-10-27T00:00:00">
+  
+  
+  
+    
+      <meta property="article:section" content="R">
+    
+      <meta property="article:section" content="Data Engineering">
+    
+      <meta property="article:section" content="Tutorial">
+    
+  
+  
+    
+      <meta property="article:tag" content="R">
+    
+      <meta property="article:tag" content="data engineering">
+    
+      <meta property="article:tag" content="notifications">
+    
+      <meta property="article:tag" content="alerts">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@dmac_sci">
+
+
+  <meta name="twitter:creator" content="@dmac_sci">
+
+
+
+
+
+
+  <meta property="og:image" content="https://lh3.googleusercontent.com/CzM55mwAzJRhWBxpyU7OJ9FeY0lJx3qJBb870fq08yShn-z_et6ZHqk0Qjs-vfz1Z-AKzpbp0t4TL5AHo3LW6N9ZCb0Nk2Y1gSgq3eCpomcUFkioT_9FRorm4fgqS5up6gcJ0fjfu2jQjFbsoRGflANXjiqD13FfAWWXMESKHnyPJKN9Zj4lg7kDmU256k3VU9aCMkgBunRTN7K7nR-v4m9R8Skm5FEhwuFyj6_jH39m6xPMJ1nWYVYk5gc6v8C6nNndIuB_2M7SD42PXtd6xWXPoVcgoJiMYBRmGfJwVN53xxxjYnF7p_O1JA4p7OL5tTBbWgJVsRKPNK_Dc04wDmhZzFF-dhkRWdM3L5kpMMfvHukEiz1SRWBQ_Tp77xPEVx5hIIjy7jvbbAjzD7gN-JqT1Mc-Xl-pYKhq9ySZ9hbNawmq_IZxO6xRuh2FmB6uZuzislEcSXH9BJcMkMlahI-lnmmjpeFiAT6lI1LpSgc0IZv4X3fPIcN6WhTi7QZNhaYPu1cgIo1Rj-eUCWj6roOzo_HNYsAM2BdbooNDyLxUgpUOpYohjpToxXCfZQVeYUqkBcy-YCWcIU216ljBi7Wv6cVxvKz68mO75E0x5wbdcqIwXfzJ6fDS90ns4WrklXkCk7-0bXOZAM7cI_wMrnPZRCH0uOlchaf3TZjhs2n9B-SS-yQcXQ=s512-no?authuser=2">
+  <meta property="twitter:image" content="https://lh3.googleusercontent.com/CzM55mwAzJRhWBxpyU7OJ9FeY0lJx3qJBb870fq08yShn-z_et6ZHqk0Qjs-vfz1Z-AKzpbp0t4TL5AHo3LW6N9ZCb0Nk2Y1gSgq3eCpomcUFkioT_9FRorm4fgqS5up6gcJ0fjfu2jQjFbsoRGflANXjiqD13FfAWWXMESKHnyPJKN9Zj4lg7kDmU256k3VU9aCMkgBunRTN7K7nR-v4m9R8Skm5FEhwuFyj6_jH39m6xPMJ1nWYVYk5gc6v8C6nNndIuB_2M7SD42PXtd6xWXPoVcgoJiMYBRmGfJwVN53xxxjYnF7p_O1JA4p7OL5tTBbWgJVsRKPNK_Dc04wDmhZzFF-dhkRWdM3L5kpMMfvHukEiz1SRWBQ_Tp77xPEVx5hIIjy7jvbbAjzD7gN-JqT1Mc-Xl-pYKhq9ySZ9hbNawmq_IZxO6xRuh2FmB6uZuzislEcSXH9BJcMkMlahI-lnmmjpeFiAT6lI1LpSgc0IZv4X3fPIcN6WhTi7QZNhaYPu1cgIo1Rj-eUCWj6roOzo_HNYsAM2BdbooNDyLxUgpUOpYohjpToxXCfZQVeYUqkBcy-YCWcIU216ljBi7Wv6cVxvKz68mO75E0x5wbdcqIwXfzJ6fDS90ns4WrklXkCk7-0bXOZAM7cI_wMrnPZRCH0uOlchaf3TZjhs2n9B-SS-yQcXQ=s512-no?authuser=2">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=640">
+
+
+    <title>Notifications in Data Pipelines</title>
+
+    <link rel="icon" href="images/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://douganddata.com/2020/10/notifications_in_pipelines/">
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://douganddata.com/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="3">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://douganddata.com/">Doug and Data</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://douganddata.com/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="3">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://douganddata.com/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Douglas MacDonald</h4>
+        
+          <h5 class="sidebar-profile-bio">A Data Scientist in Marketing Science and Higher Education</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://raw.githubusercontent.com/doug2mac/doug_cv/main/cv.pdf" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-id-card"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">Categories</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://douganddata.com/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/doug2mac" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://stackoverflow.com/users/14469473/douglas-macdonald" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-stack-overflow"></i>
+      
+      <span class="sidebar-button-desc">Stack Overflow</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://twitter.com/dmac_sci" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-twitter"></i>
+      
+      <span class="sidebar-button-desc">Twitter</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="3"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Notifications in Data Pipelines
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-10-27T00:00:00Z">
+        
+  October 27, 2020
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://douganddata.com/categories/r">R</a>, 
+    
+      <a class="category-link" href="https://douganddata.com/categories/data-engineering">Data Engineering</a>, 
+    
+      <a class="category-link" href="https://douganddata.com/categories/tutorial">Tutorial</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+<script src="https://douganddata.com/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="https://douganddata.com/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="https://douganddata.com/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>It can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it <em>is</em> an important aspect of any recurring or scheduled data-pipeline.</p>
+<p>Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).</p>
+<p>These steps may all be in a single script when you start designing a process, but as your pipelines grow and complexity increases, it will be far easier to navigate separate files for each step in the process.</p>
+<p>There are three methods I recommend to get started (in the following order):</p>
+<ul>
+<li>Audio Notifications</li>
+<li>Log files</li>
+<li>Message Notifications</li>
+</ul>
+</div>
+<div id="audio-notifications" class="section level1">
+<h1>Audio Notifications</h1>
+<p>There is a great package in <em>R</em> called <a href="https://cran.r-project.org/web/packages/beepr/beepr.pdf">beepr</a> that can be utilized to send sound notifications through your computer. This is helpful when first creating a long data-processing script that you are still developing.</p>
+<p>Instead of repeatedly checking if a process is done, you can utilize <em>beepr</em> and be notified by one of their many great sounds. My personal favorite is the recognizable “fanfare” theme, it is just long enough for me to hear it if I am concentrating on something else.</p>
+<pre class="r"><code># if you need to install the package from CRAN
+# install.packages(&#39;beepr&#39;)
+
+for(i in 1:10){
+  print(i)
+  Sys.sleep(2)
+}
+
+beepr::beep(3) # for the fanfare theme</code></pre>
+</div>
+<div id="log-files" class="section level1">
+<h1>Log files</h1>
+<p>Log files are a method to record a history of your data-pipeline process.</p>
+<p>You may have seen individuals do this by hand, by opening a file, writing out text, inserting a new line, then closing the file:</p>
+<pre class="r"><code># simulate some data
+test_data &lt;- as.data.frame(list(x=rnorm(100)))
+
+# open a connection to the log file
+log_file &lt;- file(&quot;log.txt&quot;)
+
+# write notification
+write(paste0(&#39;There are &#39;, nrow(test_data), &#39; rows of data&#39;), log_file, append = TRUE)
+
+# close the connection
+close(log_file)</code></pre>
+<p>I prefer to use the package <a href="https://cran.r-project.org/web/packages/log4r/log4r.pdf">log4r</a>. It can be extended to log activity to the console, or a flat file, time stamps are created by default, and specific logging levels can be set for each output. For example, only <code>WARN</code> level logs are written to the console, while both <code>INFO</code> and <code>WARN</code> levels logs are written to a file.</p>
+<p>Below is a toy example of how I use <em>log4r</em> and <a href="https://cran.r-project.org/web/packages/glue/glue.pdf">glue</a> (an incredible package that can evaluate <code>R</code> code in a text string) to log pipelines:</p>
+<pre class="r"><code># install log4r if necessary
+# install.packages(&#39;log4r&#39;)
+# install glue if necessary
+# install.packages(&#39;glue)
+library(log4r)
+
+# create a logfile that is a plain text document
+log &lt;- logger(appenders = file_appender(&#39;logfile.log&#39;))
+
+# simulate some data
+test_data &lt;- as.data.frame(list(x=rnorm(100)))
+
+# write out the log information, at the appropriate level
+info(log, glue::glue(&quot;There are {nrow(test_data)} rows of data.&quot;))</code></pre>
+</div>
+<div id="message-notifications" class="section level1">
+<h1>Message Notifications</h1>
+<p>The previous methods outlined work well for the one designing the pipeline to receive feedback on their data-pipeline process. However, other members of your unit or organization would often benefit from having visibility into the data-pipeline process. I have found one of the easiest ways to implement a messaging system to other users, is to utilize existing familiar communication channels.</p>
+<p>Previously we have used <a href="https://slack.com/">Slack</a>, but recently transitioned to <a href="https://www.microsoft.com/en-us/microsoft-365/microsoft-teams/group-chat-software">Teams</a> by Microsoft. There are packages for <code>R</code> that you can utilize to connect to either your organization’s <em>Slack</em> instance (<a href="https://github.com/hrbrmstr/slackr">slackr</a>) or Microsoft Teams (<a href="https://github.com/wwwjk366/teamr">teamr</a>).</p>
+<p>For Microsoft Teams, there are a few steps to get started:</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://support.microsoft.com/en-us/office/create-a-team-from-scratch-174adf5f-846b-4780-b765-de1a0a737e2b">Create a Team</a> that will receive the notifications for this data-pipeline, or use an existing team. In this example I use the Team <em>BOTS</em>.</li>
+</ol>
+<div class="figure">
+<img src="notifications_000_team.png" alt="" />
+<p class="caption">BOTS Team</p>
+</div>
+<ol start="2" style="list-style-type: decimal">
+<li><a href="https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook">Connect the webhook</a> to the Team created in step 1. This is done by clicking the three dots <code>...</code> in one of the Team channels, then selecting <em>connectors</em>. From the list, select the <em>Incoming Webhook</em> connector to add to your channel.</li>
+</ol>
+<div class="figure">
+<img src="notifications_001_webhook.png" alt="" />
+<p class="caption">Incoming Webhook Connector</p>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>Configure the Webhook Connector by clicking the <em>Configure</em> button once it has been added. Give your connector a name, and upload an image if desired. in my example I named my connector <em>BOT</em>. After the connector has been created, you should be able to copy the Webhook Connector URL for this connector. Copy this URL to use later in your scripts.</li>
+</ol>
+<div class="figure">
+<img src="notifications_002_configure.png" alt="" />
+<p class="caption">Configure Webhook Connector</p>
+</div>
+<p>Below is an example of a notification function I send after data is downloaded from our Salesforce instance in a data-pipeline that updates our website:</p>
+<pre class="r"><code># install the teamr package if necessary
+# install.packages(&#39;teamr&#39;)
+# install glue if necessary
+
+library(teamr)
+
+# set your organization&#39;s web-hook
+cc &lt;- connector_card$new(hookurl = &quot;HOOK URL FROM STEP 3&quot;)
+
+# define a message function
+teams_message &lt;- function(title, text, color = &quot;#00800&quot;){
+  cc$text(text)
+  cc$title(title)
+  cc$color(color)
+  cc$send()
+}
+
+# post the message to the channel
+teams_message( text = glue::glue(&#39;Update: Salesforce Download Complete. {length(skipped_objects)} skipped.&#39;)
+              ,title = &#39;Website Refresh:&#39;)</code></pre>
+<p>The result is the following message posted in the <em>BOTS</em> channel, from my connecter <em>BOT</em>:</p>
+<div class="figure">
+<img src="notifications_003_message.png" alt="" />
+<p class="caption">BOT Connector Message</p>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>We covered three main methods of notifying a user at the end of major steps of a data-pipeline process. The first method is recommended for long-running processes that you are actively developing. The second method is recommended for processes that are recurring or scheduled, that you wish to record a history of. The second <em>and</em> third methods are recommended for those data-pipeline processes that require more visibility than just the developer maintaining the process. At the end of each step, a method to provide feedback to those that monitor the data-pipeline can save you from missing a misbehaving pipeline for several days, and ensure that the integrity of the process.</p>
+</div>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/r/">R</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/data-engineering/">data engineering</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/notifications/">notifications</a>
+
+  <a class="tag tag--primary tag--small" href="https://douganddata.com/tags/alerts/">alerts</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/11/index.en-us/" data-tooltip="Salesforce Query Quick Tip">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/10/bond_films/" data-tooltip="Bond Films">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2022 Douglas MacDonald. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/11/index.en-us/" data-tooltip="Salesforce Query Quick Tip">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/10/bond_films/" data-tooltip="Bond Films">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://douganddata.com/2020/10/notifications_in_pipelines/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fnotifications_in_pipelines%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fnotifications_in_pipelines%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fdouganddata.com%2F2020%2F10%2Fnotifications_in_pipelines%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/2414a5df5ba3bf295a75ce5c2ccd76b2?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Douglas MacDonald</h4>
+    
+      <div id="about-card-bio">A Data Scientist in Marketing Science and Higher Education</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Associate Director, Marketing Science
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Philadelphia, PA
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://douganddata.com/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://douganddata.com/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

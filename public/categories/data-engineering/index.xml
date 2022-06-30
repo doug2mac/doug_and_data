@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Data Engineering on Doug and Data</title>
+    <link>https://douganddata.com/categories/data-engineering/</link>
+    <description>Recent content in Data Engineering on Doug and Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 10 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://douganddata.com/categories/data-engineering/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Salesforce Query Quick Tip</title>
+      <link>https://douganddata.com/2020/11/index.en-us/</link>
+      <pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/2020/11/index.en-us/</guid>
+      <description>
+&lt;script src=&#34;https://douganddata.com/rmarkdown-libs/header-attrs/header-attrs.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;https://douganddata.com/rmarkdown-libs/anchor-sections/anchor-sections.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;https://douganddata.com/rmarkdown-libs/anchor-sections/anchor-sections.js&#34;&gt;&lt;/script&gt;
+
+
+</description>
+    </item>
+    
+    <item>
+      <title>Notifications in Data Pipelines</title>
+      <link>https://douganddata.com/2020/10/notifications_in_pipelines/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/2020/10/notifications_in_pipelines/</guid>
+      <description>IntroductionIt can be overwhelming when trying to set-up or develop a monitoring system for your data-pipelining / processing jobs. However, it is an important aspect of any recurring or scheduled data-pipeline.
+Ideally, your process can be broken down into single steps. Commonly, they can be broken down into Extraction steps (pulling down or reading in data), Transformation steps (pre-processing or manipulations of the data for the desired output), and Load steps (loading the now processed data into a database, or exporting flat files to a shared folder).</description>
+    </item>
+    
+  </channel>
+</rss>

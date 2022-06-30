@@ -1,0 +1,155 @@
+---
+title: A Predictive Model of Ice and Fire
+author: Douglas MacDonald
+date: '2020-11-12'
+draft: true
+slug: got_ice_and_fire
+thumbnailImage: 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fv1.escapistmagazine.com%2Fforums%2Fread%2F7.285127-Game-of-Thrones-Map-Sequence-Intended-for-Scene-Transitions&psig=AOvVaw3v0ut0ZwPP5OSkHLGpu9uf&ust=1605324032062000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJjWsp_I_uwCFQAAAAAdAAAAABAD'
+thumbnailImagePosition: left
+categories:
+  - analysis
+  - viz
+  - R
+tags:
+  - analysis
+  - tv
+  - R Markdown
+  - R
+keywords:
+  - tech
+---
+
+<!--more-->
+
+```{r setup, include=FALSE}
+rm(list=ls())
+
+library(tidyverse)
+library(jsonlite)
+library(corrmorant)
+
+setwd("/home/doug/Drive/Syncthing/DougandData/Website")
+
+fromJSON('../data/game_of_thrones/episodes.json') %>% 
+  .[[1]] %>% 
+  as_tibble() %>% 
+  unnest(scenes) %>% 
+  unnest(characters) -> episodes
+
+fromJSON('../data/game_of_thrones/wordcount.json') %>% 
+  .[[1]] %>% 
+  as_tibble() %>% 
+  unnest(text) -> wordcount
+
+ratings <- read_csv('../data/game_of_thrones/ratings.csv')
+
+```
+
+
+# Introduction
+
+# The Data Set
+
+The data set that is used in this analysis is the beautiful data set assembled by [Jeffrey Lancaster](https://github.com/jeffreylancaster/game-of-thrones). In the [Github Repo](https://github.com/jeffreylancaster/game-of-thrones), you will find the data folder. The data is broken out into several **JSON** files, each containing information about different aspects of the series. The data I have chosen to use in this analysis can be found in the `episodes.json` and the `wordcount.json` files. These files contain data down to the scene level for all episodes in the series, as well counts of the numbers of words spoken by each character.
+
+# Characters
+
+There are over 500 unique characters in the Game of Thrones series according to our data. We can explore those characters that have appeared most often in the series. The graph below depicts the top 30 characters that have appeared the most often in a scene.
+
+```{r, echo=FALSE, message=FALSE}
+
+episodes %>% 
+    group_by(name) %>%
+    summarise(totalScenes = n()) %>% 
+    arrange(desc(totalScenes)) %>% 
+    head(30) %>%
+    mutate(Character = fct_reorder(name, totalScenes)) %>% 
+    ggplot(aes(y = Character, x = totalScenes)) +
+        geom_col() +
+        theme_minimal() +
+        ylab("Character \n Name") + 
+        xlab("Total Scenes Appeared") + 
+        theme(axis.title.y = element_text(angle = 0, vjust = 0.5,size=14),
+              axis.text = element_text(size=12)) +
+        labs(title = 'Top 30 Characters by number of scenes appeared')
+
+```
+
+There are some interesting aspects about the plot above. For example, **Drogon**, is the 14th character to appear most often in the series. However, **Drogon** has no lines in the series. We can go a step further, and examine the number of words spoken by each character.
+
+```{r, echo=FALSE, message=FALSE}
+
+wordcount %>% 
+  group_by(name) %>% 
+  summarise(words_spoken = sum(count)) %>% 
+  arrange(desc(words_spoken)) %>% 
+  head(30) %>%
+  mutate(Character = fct_reorder(name, words_spoken)) %>% 
+    ggplot(aes(y = Character, x = words_spoken)) +
+        geom_col() +
+        theme_minimal() +
+        ylab("Character \n Name") + 
+        xlab("Total Words Spoken") + 
+        theme(axis.title.y = element_text(angle = 0, vjust = 0.5,size=14),
+              axis.text = element_text(size=12)) +
+        labs(title = 'Top 30 Characters by number of words spoken')
+
+```
+
+Examining The plot above, we see that Tyrion Lannister has the most words spoken by a large margin. This does not come as a surprise, since if you are familiar with the series, Tyrion's scenes are quite long-winded. I did not expect Cersei Lannister to come in second, but when you consider the number of episodes a character appears in, it does make sense!
+
+# Analysis
+
+My goal with this project was to create a model that could estimate the average rating for a given episode.
+The theory, is that several factors play into an episodes rating. Certain characters (on average) are more or less appealing to the audience, and when they receive more screen time, or have a more active role in the episode (indicated here by the number of words spoken) it will influence the episodes rating.
+
+```{r}
+
+wordcount %>% 
+  group_by(name) %>% 
+  summarise(words_spoken = sum(count)) %>% 
+  arrange(desc(words_spoken)) %>% 
+  head(30) %>%
+  pull(name) -> top30
+
+## create a summarized list of episodes 
+wordcount %>% 
+  filter(name %in% top30) %>% 
+  select(seasonNum, episodeNum, name, count, episodeTitle) %>% 
+  pivot_wider(id_cols = c(seasonNum, episodeNum, episodeTitle)
+              , names_from = name
+              , values_from = count
+              , values_fn = sum) %>% 
+  inner_join(
+     ratings
+   , by = c("seasonNum","episodeNum")
+  ) -> df
+
+df %>%
+  select_if(is.numeric) %>% 
+  replace(is.na(.), 0) %>%
+  mutate(rank_rating = rank(rating)) -> df
+
+df %>%
+  mutate_all(as.double) %>%
+  as.matrix() %>%
+  Hmisc::rcorr() -> df_cor
+
+flattenCorrMatrix <- function(cormat, pmat) {
+  ut <- upper.tri(cormat)
+  data.frame(
+    row = rownames(cormat)[row(cormat)[ut]],
+    column = rownames(cormat)[col(cormat)[ut]],
+    cor  =(cormat)[ut],
+    p = pmat[ut]
+    )
+}
+
+df_cormat <- flattenCorrMatrix(df_cor$r, df_cor$P)
+
+df_cormat %>%
+  filter(column == 'rank_rating') %>%
+  filter(p <= .05)
+
+```
+

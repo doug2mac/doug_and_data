@@ -1,0 +1,398 @@
+---
+title: Multi-Channel Attribution
+author: Doug MacDonald
+date: '2022-03-01'
+slug: multi-channel-attribution
+thumbnailImage: '/mta_image.jpeg'
+coverImage: '/mta_image.jpeg'
+thumbnailImagePosition: left
+categories:
+  - analysis
+  - info
+tags:
+  - analysis
+  - machine learning
+keywords:
+  - tech
+---
+
+
+
+<div class="figure">
+<img src="/images/mta/mta_image.png" alt="" />
+<p class="caption">Multi-Touch Attribution</p>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This document serves as an introduction to the estimation of channel attribution via Markov models. This is achieved by mapping out the customer journey, and each step in that journey, that leads to a conversion. After creating the paths, relationships are examined between them to estimate the unique contribution each step has in the conversion path.</p>
+</div>
+<div id="an-example" class="section level1">
+<h1>An Example</h1>
+<div id="the-data" class="section level2">
+<h2>The Data</h2>
+<p>The data leveraged for the Markov model is customer event data. The event data is tracked by examining clicks or views on paid media to capture an interaction (or touchpoint) with that respective media channel and/or tactic. An example of what event data looks like is below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+customer_id
+</th>
+<th style="text-align:left;">
+channel
+</th>
+<th style="text-align:left;">
+tactic
+</th>
+<th style="text-align:left;">
+event_type
+</th>
+<th style="text-align:right;">
+event_step
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Display
+</td>
+<td style="text-align:left;">
+Retargeting
+</td>
+<td style="text-align:left;">
+View
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Social
+</td>
+<td style="text-align:left;">
+Retention
+</td>
+<td style="text-align:left;">
+Click
+</td>
+<td style="text-align:right;">
+2
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Display
+</td>
+<td style="text-align:left;">
+Retargeting
+</td>
+<td style="text-align:left;">
+View
+</td>
+<td style="text-align:right;">
+3
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Search
+</td>
+<td style="text-align:left;">
+Retention
+</td>
+<td style="text-align:left;">
+Click
+</td>
+<td style="text-align:right;">
+4
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Online
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+Purchase
+</td>
+<td style="text-align:right;">
+5
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="customer-paths" class="section level2">
+<h2>Customer Paths</h2>
+<p>The event data is then transformed into a customer path. The path for the above example is shown below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Path
+</th>
+<th style="text-align:right;">
+Conversion
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Start) -&gt; Display -&gt; Social -&gt; Display -&gt; Search -&gt; (Conversion)
+</td>
+<td style="text-align:right;">
+1
+</td>
+</tr>
+</tbody>
+</table>
+<p>This would be one of many customer paths to conversion. An example of the path data is shown below:</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Path</th>
+<th>Conversions</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Start) -&gt; Display -&gt; Social -&gt; Display -&gt; Social -&gt; Search -&gt; Display -&gt; (Conversion)</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>(Start) -&gt; Display -&gt; Social -&gt; Display -&gt; Search -&gt; (Conversion)</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>(Start) -&gt; Display -&gt; Search -&gt; (Conversion)</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td>—–</td>
+<td>—-</td>
+</tr>
+</tbody>
+</table>
+<p>For each possible step in the path, we can count the number of times that step was taken. An example is below:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Start) -&gt; Display</td>
+<td>3</td>
+</tr>
+<tr class="even">
+<td>(Start) -&gt; Search</td>
+<td>0</td>
+</tr>
+<tr class="odd">
+<td>(Start) -&gt; Social</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Display -&gt; Social</td>
+<td>3</td>
+</tr>
+<tr class="odd">
+<td>Display -&gt; Search</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Display -&gt; (Conversion)</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Social -&gt; Display</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>Social -&gt; Search</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Social -&gt; (Conversion)</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Search -&gt; Display</td>
+<td>1</td>
+</tr>
+<tr class="odd">
+<td>Search -&gt; Social</td>
+<td>0</td>
+</tr>
+<tr class="even">
+<td>Search -&gt; (Conversion)</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td>——-</td>
+<td>—–</td>
+</tr>
+<tr class="even">
+<td>Total</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="transition-probabilities" class="section level2">
+<h2>Transition Probabilities</h2>
+<p>From the table we can calculate the transition probabilities between the steps:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Count</th>
+<th>Probability</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Start) -&gt; Display</td>
+<td>3</td>
+<td>3/3</td>
+</tr>
+<tr class="even">
+<td>(Start) -&gt; Search</td>
+<td>0</td>
+<td>0/3</td>
+</tr>
+<tr class="odd">
+<td>(Start) -&gt; Social</td>
+<td>0</td>
+<td>0/3</td>
+</tr>
+<tr class="even">
+<td>——</td>
+<td>—-</td>
+<td>—-</td>
+</tr>
+<tr class="odd">
+<td>Display -&gt; Social</td>
+<td>3</td>
+<td>3/4</td>
+</tr>
+<tr class="even">
+<td>Display -&gt; Search</td>
+<td>0</td>
+<td>0/4</td>
+</tr>
+<tr class="odd">
+<td>Display -&gt; (Conversion)</td>
+<td>1</td>
+<td>1/4</td>
+</tr>
+<tr class="even">
+<td>——</td>
+<td>—-</td>
+<td>—-</td>
+</tr>
+<tr class="odd">
+<td>Social -&gt; Display</td>
+<td>2</td>
+<td>2/3</td>
+</tr>
+<tr class="even">
+<td>Social -&gt; Search</td>
+<td>1</td>
+<td>1/3</td>
+</tr>
+<tr class="odd">
+<td>Social -&gt; (Conversion)</td>
+<td>0</td>
+<td>0/3</td>
+</tr>
+<tr class="even">
+<td>——</td>
+<td>—-</td>
+<td>—-</td>
+</tr>
+<tr class="odd">
+<td>Search -&gt; Display</td>
+<td>1</td>
+<td>1/3</td>
+</tr>
+<tr class="even">
+<td>Search -&gt; Social</td>
+<td>0</td>
+<td>0/3</td>
+</tr>
+<tr class="odd">
+<td>Search -&gt; (Conversion)</td>
+<td>2</td>
+<td>2/3</td>
+</tr>
+</tbody>
+</table>
+<p>The transition probabilities can be represented graphically, as shown below:</p>
+<div class="figure">
+<img src="/images/mta/transition_probabilites.png" alt="" />
+<p class="caption">Transition Probabilities</p>
+</div>
+</div>
+<div id="estimating-attribution" class="section level2">
+<h2>Estimating Attribution</h2>
+<p>Now that the transition probabilities have been calculated, we need a method to determine the unique impact by each channel. A method to estimate the impact by a channel, is to examine the effects that would occur if that channel were removed. A graphical example is shown below, where the Display channel now becomes NULL.</p>
+<div class="figure">
+<img src="/images/mta/display_impact.png" alt="" />
+<p class="caption">Display Impact</p>
+</div>
+<p>In this new graph, any arrow that goes into the NULL state, does not move any further. And all arrows coming out of the NULL state are removed. We can see that removing the Display channel, would mean that no customer could get from the START step, to the CONVERSION step. The graph simplifies to the graphic below:</p>
+<div class="figure">
+<img src="/images/mta/display_refine.png" alt="" />
+<p class="caption">Display Refine</p>
+</div>
+<p>We can see in the graph above, that there is no way to get to the CONVERSION step if Display is removed. So our conversion rate changes from 100% to 0%. This change in conversion rate is how the weighted attribution for a channel is estimated. So in this example, display would receive 100% of it’s original weighting (or 1), since when the channel is removed, we see a 100% change in the conversion rate path.</p>
+<p>Another example can be seen with Search. First we place the step in a NULL state:</p>
+<div class="figure">
+<img src="/images/mta/search_impact.png" alt="" />
+<p class="caption">Search Impact</p>
+</div>
+<p>From there, we can simplify the graph and re-calculate the transition probabilities:</p>
+<div class="figure">
+<img src="/images/mta/search_refine.png" alt="" />
+<p class="caption">Search Refine</p>
+</div>
+<p>We now see a new calculated 25% conversion rate, when using the revised path. The change in the conversion rate is 75%. So when the search channel is estimated, the impact of that channel is weighted at 75% (or .75).</p>
+</div>
+</div>
+<div id="differences-in-estimation" class="section level1">
+<h1>Differences in Estimation</h1>
+<p>The Markov model approach differs from other common methods of attribution, such as:</p>
+<ol style="list-style-type: decimal">
+<li>First touch, where the first step in the conversion path assumes the total attribution weight</li>
+<li>Last touch, where the last step in the conversion path assumes the total attribution weight</li>
+<li>Linear Touch, where all steps in the conversion path are assigned equal weight</li>
+<li>Time Decay, where each step receives a smaller weight the further the step is away from the conversion event.</li>
+</ol>
+<p>We leverage the Markov model, as it is an empirically driven method, that is free of the assumptions that the alternative methods above place. For example, a last touch attribution places a large assumption that the last touch-point on the customer path receives <em>all</em> of the importance in the conversion. In contrast, the Markov model estimates the importance in a data driven method where the importance is determined by the probabilities calculated for each step in the conversion path. This also captures the multi-interaction component (multiple channels and/or tactics) of the customer journey, while the last touch attribution captures only one, regardless of the length of the customer journey.</p>
+<p>The Markov model is fit within different points of sale (In-Store, Online) and Segments (New, Reactivated, Retained) to provide a unique look at how the customer journeys may vary. The result is an in-depth analysis that allows visibility into the defining charactestics that influence the customer along their conversion journey.</p>
+</div>

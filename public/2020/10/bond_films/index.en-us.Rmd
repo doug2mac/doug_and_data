@@ -90,7 +90,7 @@ height = 8
 
 Whenever a movie series lasts as long as James Bond, different actors play the lead role of the British secret agent. Viewers, immediately go to arguing who *was/is* the greatest James Bond in the franchise.
 
-Let's take a look at the ratings submitted to `IMDB`, on who was the best lead actor to star in a James Bond film.
+Let's take a look at the ratings submitted to IMDB, on who was the best lead actor to star in a James Bond film.
 
 ```{r films_by_actor, fig.height=10, fig.width=10}
 df %>% 
@@ -115,7 +115,7 @@ df %>%
 # ggsave('./graphs/bond_lead_ratings.png', width = width, height = height)
 ```
 
-According to the ratings found on `IMDB`, the highest rated actor is Daniel Craig, with an average rating of *7.28*, followed closely behind by Sean Connery at `7.13`. The worst actors (according to the average rating) were Pierce Brosnan at `6.55`, and Timothy Dalton at `6.65`.
+According to the ratings found on IMDB, the highest rated actor is Daniel Craig, with an average rating of `7.28`, followed closely behind by Sean Connery at `7.13`. The worst actors (according to the average rating) were Pierce Brosnan at `6.55`, and Timothy Dalton at `6.65`.
 
 ## Top Rated Films
 
@@ -235,4 +235,4 @@ df %>%
 
 ## Conclusion
 
-There is a ton of information in the `IMDB` dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.
+There is a ton of information in the IMDB dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.

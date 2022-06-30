@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Doug and Data</title>
+    <link>https://douganddata.com/page/</link>
+    <description>Recent content in Pages on Doug and Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 19 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://douganddata.com/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Douglas MacDonald&#39;s CV</title>
+      <link>https://douganddata.com/page/cv/</link>
+      <pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/page/cv/</guid>
+      <description>AsideView this CV online with links at douganddata.com
+Contactdouganddata@gmailcomdmac_scigithub.com/doug2macdouganddata.comhttps://www.linkedin.com/in/douglas-macdonald-ms-m-phil-11639079/Language SkillsRSQLPowerBIPythonBashAzureDisclaimerMade with the R package pagedown.
+Last updated on 2020-10-19.
+MainDouglas MacDonaldI have a deep love and affinity for all things data and computing. My professional career has always been focused on helping others understand their data, streamline their current processes, and provide value to stakeholders.</description>
+    </item>
+    
+  </channel>
+</rss>

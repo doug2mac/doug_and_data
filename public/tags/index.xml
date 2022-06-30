@@ -6,13 +6,58 @@
     <description>Recent content in Tags on Doug and Data</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 19 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://douganddata.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 10 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://douganddata.com/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>analysis</title>
       <link>https://douganddata.com/tags/analysis/</link>
-      <pubDate>Mon, 19 Oct 2020 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate>
       
       <guid>https://douganddata.com/tags/analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>R</title>
+      <link>https://douganddata.com/tags/r/</link>
+      <pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tips</title>
+      <link>https://douganddata.com/tags/tips/</link>
+      <pubDate>Tue, 10 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/tags/tips/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>alerts</title>
+      <link>https://douganddata.com/tags/alerts/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/tags/alerts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data engineering</title>
+      <link>https://douganddata.com/tags/data-engineering/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/tags/data-engineering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>notifications</title>
+      <link>https://douganddata.com/tags/notifications/</link>
+      <pubDate>Tue, 27 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://douganddata.com/tags/notifications/</guid>
       <description></description>
     </item>
     

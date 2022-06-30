@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.76.5 with theme Tranquilpeak 0.4.8-BETA">
+<meta name="generator" content="Hugo 0.101.0 with theme Tranquilpeak 0.4.8-BETA">
 <meta name="author" content="Douglas MacDonald">
 <meta name="keywords" content="tech">
 <meta name="description" content="
@@ -130,7 +130,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="4">
+      <header id="header" data-behavior="3">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://douganddata.com/">Doug and Data</a>
@@ -150,7 +150,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="4">
+      <nav id="sidebar" data-behavior="3">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -159,7 +159,7 @@
         </a>
         <h4 class="sidebar-profile-name">Douglas MacDonald</h4>
         
-          <h5 class="sidebar-profile-bio">A data scientist in Higher Education</h5>
+          <h5 class="sidebar-profile-bio">A Data Scientist in Marketing Science and Higher Education</h5>
         
       </div>
     
@@ -167,21 +167,21 @@
       
   <li class="sidebar-button">
     
-      <a class="sidebar-button-link " href="https://douganddata.com/about/cv.html">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-id-card"></i>
-      
-      <span class="sidebar-button-desc">About</span>
-    </a>
-  </li>
-
-  <li class="sidebar-button">
-    
       <a class="sidebar-button-link " href="https://douganddata.com/">
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
       <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://raw.githubusercontent.com/doug2mac/doug_cv/main/cv.pdf" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-id-card"></i>
+      
+      <span class="sidebar-button-desc">About</span>
     </a>
   </li>
 
@@ -263,7 +263,7 @@
               text-left
               "
        style="background-image:url('https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE')"
-       data-behavior="4">
+       data-behavior="3">
     
       <div class="post-header main-content-wrap text-left">
   
@@ -302,7 +302,7 @@
   </div>
 
 
-      <div id="main" data-behavior="4"
+      <div id="main" data-behavior="3"
         class="hasCover
                hasCoverMetaIn
                ">
@@ -340,7 +340,7 @@ I may do another post later on displaying the data-pipelining behind this analys
 <div id="james-bond-films-by-lead-actor" class="section level2">
 <h2>James Bond films by lead actor</h2>
 <p>Whenever a movie series lasts as long as James Bond, different actors play the lead role of the British secret agent. Viewers, immediately go to arguing who <em>was/is</em> the greatest James Bond in the franchise.</p>
-<p>Let’s take a look at the ratings submitted to <code>IMDB</code>, on who was the best lead actor to star in a James Bond film.</p>
+<p>Let’s take a look at the ratings submitted to IMDB, on who was the best lead actor to star in a James Bond film.</p>
 <pre class="r"><code>df %&gt;% 
     group_by(actor) %&gt;% 
     summarise(rating = round(mean(averageRating), 2)
@@ -357,7 +357,7 @@ I may do another post later on displaying the data-pipelining behind this analys
              ,caption = &#39;Source: IMDB.com&#39;
              ,x = &#39;Average Rating&#39;)</code></pre>
 <p><img src="https://douganddata.com/post/2020-10-19-bond-films/index.en-us_files/figure-html/films_by_actor-1.png" width="960" /></p>
-<p>According to the ratings found on <code>IMDB</code>, the highest rated actor is Daniel Craig, with an average rating of <em>7.28</em>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
+<p>According to the ratings found on IMDB, the highest rated actor is Daniel Craig, with an average rating of <code>7.28</code>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
 </div>
 <div id="top-rated-films" class="section level2">
 <h2>Top Rated Films</h2>
@@ -538,7 +538,7 @@ df %&gt;%
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>There is a ton of information in the <code>IMDB</code> dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.</p>
+<p>There is a ton of information in the IMDB dataset, that is a great start for any data science project for the movie or television lover. There are still many other questions we could investigate with this data, and more posts may be coming about the James Bond series.</p>
 </div>
 </div>
 
@@ -572,7 +572,7 @@ df %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/10/notifications_in_pipelines/" data-tooltip="Notifications in Data Pipelines">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -617,12 +617,6 @@ df %&gt;%
         
       
       
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
       <li class="post-action">
         
           <a class="post-action-btn btn btn--default" href="#">
@@ -636,21 +630,17 @@ df %&gt;%
 
             
               
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
             
           </div>
         </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2020 Douglas MacDonald. All Rights Reserved
+    &copy; 2022 Douglas MacDonald. All Rights Reserved
   </span>
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="3">
         <div class="post-actions-wrap">
   
       <nav >
@@ -658,7 +648,7 @@ df %&gt;%
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://douganddata.com/2020/10/notifications_in_pipelines/" data-tooltip="Notifications in Data Pipelines">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -703,12 +693,6 @@ df %&gt;%
         
       
       
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
       <li class="post-action">
         
           <a class="post-action-btn btn btn--default" href="#">
@@ -721,7 +705,7 @@ df %&gt;%
 </div>
 
       </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+      <div id="share-options-bar" class="share-options-bar" data-behavior="3">
   <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
     
@@ -758,13 +742,13 @@ df %&gt;%
     
     <h4 id="about-card-name">Douglas MacDonald</h4>
     
-      <div id="about-card-bio">A data scientist in Higher Education</div>
+      <div id="about-card-bio">A Data Scientist in Marketing Science and Higher Education</div>
     
     
       <div id="about-card-job">
         <i class="fa fa-briefcase"></i>
         <br/>
-        Data Scientist
+        Associate Director, Marketing Science
       </div>
     
     
@@ -827,28 +811,6 @@ $(document).ready(function() {
 
 
   
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/douganddata.com\/2020\/10\/bond_films\/';
-          
-            this.page.identifier = '\/2020\/10\/bond_films\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'hugo-tranquilpeak-theme';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
     
   
 

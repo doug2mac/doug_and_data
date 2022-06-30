@@ -1,4 +1,5 @@
 # Tranquilpeak
+
 # Version : 0.4.8-BETA
 # Author : Thibaud Leprêtre
 
@@ -33,8 +34,8 @@ canonifyurls = true
 
 [author]
   name = "Douglas MacDonald"
-  bio = "A data scientist in Higher Education"
-  job = "Data Scientist"
+  bio = "A Data Scientist in Marketing Science and Higher Education"
+  job = "Associate Director, Marketing Science"
   location = "Philadelphia, PA"
   # Your Gravatar email. Overwrite `author.picture` everywhere in the blog
   gravatarEmail = "douganddata@gmail.com"
@@ -229,3 +230,8 @@ canonifyurls = true
   # Customize copyright value "© 2017 <CUSTOMIZATION>. All Rights Reserved"
   # [params.footer]
   #   copyright = "<a href=\"https://github.com/kakawait\">kakawait</a>"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true

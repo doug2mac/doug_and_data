@@ -3,8 +3,8 @@ title: Bond Films
 author: Douglas MacDonald
 date: '2020-10-19'
 slug: bond_films
-thumbnailImage: 'https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE'
-coverImage: 'https://lh3.googleusercontent.com/tSBvpiYIL-Q54eK3ChdlosSvjXc2degG5xp19fzOfBTA7Y7JL9d1T7B10GQkh-aP8sYzrG2TTy6LXUurGUT26_jQbdr_gkOg2zkCGHbCySs47uXLQEhfDOerPX9IkeNt3C1TSYE'
+thumbnailImage: '/images/bond_films.jpg'
+coverImage: '/images/bond_films.jpg'
 thumbnailImagePosition: left
 categories:
   - movies
@@ -20,9 +20,6 @@ keywords:
   - tech
 ---
 
-<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
-<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
-<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
 
 
 <!--more-->
@@ -71,6 +68,8 @@ I may do another post later on displaying the data-pipelining behind this analys
              ,subtitle = &#39;Average Rating by Actor&#39;
              ,caption = &#39;Source: IMDB.com&#39;
              ,x = &#39;Average Rating&#39;)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
 <p><img src="/post/2020-10-19-bond-films/index.en-us_files/figure-html/films_by_actor-1.png" width="960" /></p>
 <p>According to the ratings found on IMDB, the highest rated actor is Daniel Craig, with an average rating of <code>7.28</code>, followed closely behind by Sean Connery at <code>7.13</code>. The worst actors (according to the average rating) were Pierce Brosnan at <code>6.55</code>, and Timothy Dalton at <code>6.65</code>.</p>
 </div>
@@ -90,6 +89,8 @@ I may do another post later on displaying the data-pipelining behind this analys
          ,y = &#39;&#39;
          ,title = &#39;Average Rating of Bond Films&#39;
          ,subtitle = &#39;Ordered by Release Year&#39;)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
 <p><img src="/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 <pre class="r"><code>df %&gt;% 
     arrange(desc(averageRating)) %&gt;% 
@@ -222,6 +223,8 @@ df %&gt;%
         labs( y = &#39;Budget (USD Millions)&#39;
              ,x = &#39;Year&#39;
              ,color = &#39;Rating&#39;)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
 <p><img src="/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>There is a clear positive relationship between release year, and budget, with the release year accounting for over <code>86%</code> of the variance in budget. On average, for every year that goes by, the budget for a James Bond film increases $3.335 Million dollars!</p>
 <p>Interesting to note, however, that there is no relationship between budget, and average rating for a film.</p>
@@ -249,6 +252,8 @@ df %&gt;%
         labs( y = &#39;Budget (USD Millions)&#39;
              ,x = &#39;Average Rating&#39;
              ,color = &#39;Rating&#39;)</code></pre>
+<pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.</code></pre>
 <p><img src="/post/2020-10-19-bond-films/index.en-us_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
 <div id="conclusion" class="section level2">
