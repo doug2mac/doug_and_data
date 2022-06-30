@@ -23,7 +23,7 @@ theme_set(ggthemes::theme_fivethirtyeight(base_size = 14))
 
 # Introduction
 
-![Multi-Touch Attribution](/images/mta/mta_image.png)
+![Multi-Touch Attribution](/images/mta/mta_image.jpeg)
 
 This document serves as an introduction to the estimation of channel attribution via Markov models. This is achieved by mapping out the customer journey, and each step in that journey, that leads to a conversion. After creating the paths, relationships are examined between them to estimate the unique contribution each step has in the conversion path.
 
