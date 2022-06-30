@@ -110,7 +110,7 @@ From the table we can calculate the transition probabilities between the steps:
 
 The transition probabilities can be represented graphically, as shown below:
 
-![Transition Probabilities](/images/mta/transition_probabilites.png)
+![Transition Probabilities](/images/mta/transition_probabilities.png)
 
 ## Estimating Attribution
 
