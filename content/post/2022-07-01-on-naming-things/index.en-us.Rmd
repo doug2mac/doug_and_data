@@ -1,0 +1,20 @@
+---
+title: On Naming Things
+author: Doug MacDonald
+date: '2022-07-01'
+slug: index.en-us
+thumbnailImage: '/images/mta/mta_thumbnail.png'
+thumbnailImagePosition: left
+categories:
+  - info
+  - datascience
+  - management
+tags:
+  - management
+  - data engineering
+  - analysis
+keywords:
+  - tech
+---
+
+<!--more-->

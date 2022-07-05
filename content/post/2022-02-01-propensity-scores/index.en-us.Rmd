@@ -3,6 +3,8 @@ title: Propensity Scores
 author: Doug MacDonald
 date: '2022-02-01'
 slug: index.en-us
+thumbnailImage: '/images/experimental_group.png'
+thumbnailImagePosition: left
 categories:
   - analysis
 tags:
@@ -84,7 +86,15 @@ as.data.frame(list(p,treated,control)
 
 Whether the researcher is estimating the ATE or the ATT, they are striving for balance between the covariates. The researcher may need to alter their model specification in order to achieve a proper balance (squared, cubic, interaction terms, etc.). Furthermore, the researcher must examine the range of weights that are being applied. If an individual has an exceptionally low propensity, then their weighting may become astronomically high. Extremely high weights can be recoded and brought into a more reasonable range.
 
-{{ if and (not .Params.disable_mathjax) (or (in (string .Content) "\\") (in (string .Content) "$")) }}
-<script src="{{ "/js/math-code.js" | relURL }}"></script>
-<script async src="{{ .Site.Params.MathJaxCDN | default "//cdnjs.cloudflare.com/ajax/libs" }}/mathjax/{{ .Site.Params.MathJaxVersion | default "2.7.5" }}/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-{{ end }}
+
+
+```{r, include=FALSE}
+shiny::HTML(
+'
+<script src="//yihui.org/js/math-code.js"></script>
+<script async
+src="//YOUR-CDN-LINK/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+'   
+)
+```

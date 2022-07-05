@@ -3,8 +3,8 @@ title: Bond Films
 author: Douglas MacDonald
 date: '2020-10-19'
 slug: bond_films
-thumbnailImage: '/images/bond_films.jpg'
-coverImage: '/images/bond_films.jpg'
+coverImage: '/images/bond_films.png'
+thumbnailImage: '/images/bond_films.png'
 thumbnailImagePosition: left
 categories:
   - movies
@@ -57,7 +57,7 @@ library(ggtext)
 library(ggrepel)
 
 knitr::opts_knit$set(root.dir = here::here())
-knitr::opts_chunk$set(message=FALSE)
+knitr::opts_chunk$set(message=FALSE, warning = FALSE)
 
 
 wikipedia <- read_csv('./data/wikipedia_clean.csv')
