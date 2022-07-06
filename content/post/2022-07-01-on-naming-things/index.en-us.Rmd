@@ -17,8 +17,6 @@ keywords:
   - tech
 ---
 
-![Naming Things](/images/naming_things.png)
-
 <!--more-->
 ```{r setup, include=FALSE}
 myfiles <- c(
@@ -34,6 +32,8 @@ myfiles <- c(
 ,'2020-10-01_client_j_data.csv'
 )
 ```
+
+![Naming Things](/images/naming_things.png)
 
 # Introduction 
 
