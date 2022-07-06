@@ -17,6 +17,8 @@ keywords:
   - tech
 ---
 
+![Naming Things](/images/naming_things.png)
+
 <!--more-->
 ```{r setup, include=FALSE}
 myfiles <- c(
