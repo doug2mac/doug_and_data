@@ -63,14 +63,15 @@ Machine readable file names are those that can be easily read in, and parsed by 
 - Use delimiters to separate key pieces of information (_ or -) - Use underscores (_) to separate units of meta-data 
 - Use hyphens (-), also called slugs, to separate words of the same meta-data 
 
-Example : In the below example, we see that the files take the following format 
+Example : In the below example, we see that the files take the following format
+
 - {date}_{client}_{source}_{description}.csv 
 
 ```{r, eval=FALSE}
 list.files('~/Downloads/example')
 ```
-```{r, include=FALSE}
-myfiles
+```{r, echo=FALSE}
+print(myfiles)
 ```
 
 - The files are ordered chronologically by default 
@@ -91,10 +92,12 @@ The other half of the equation, is to ensure that the file names are easily read
     - 2021-11-15_doug_full-mmm-data.csv 
 
 ### Orders by Default 
-Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits. 
+Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits.
+
 - 01_pull-data.py, 02_clean-data.py 
 
 This is done so that it appears before 10_visualize-model.py in a file list.
+
 - All dates should follow the format: YYYY-MM-DD 
 - This is the ISO 8601 standard for dates 
 
@@ -133,6 +136,7 @@ paid_media_impressions_daily_avg = paid_media_impressions / days_in_month
 ```
 
 There are several common abbreviations that can help the reader understand what the variables represent: 
+
  - avg: for average 
  - max: for maximum 
  - min: for minimum 
@@ -151,8 +155,6 @@ Adopt standard conventions for naming so you can make one global decision in a c
 |Competitor Data | competitor |
 |External Factors | external |
 |Promotional Factors | promo |
-|-------------|------|
-
 
 Much like files, common prefixes can make it much easier to select groups of variables at one time. It also provides self-documentation, as the user can understand the roles that the variables play in the analysis 
 
@@ -166,6 +168,6 @@ Another great practice is to provide a brief introduction to the script via comm
 ## Conventions in practice 
 
 ### When to prioritize the conventions 
-When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the janitor packages has the function clean_names() that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed 
+When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the `janitor` packages has the function `clean_names()` that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed 
 
-In python, the pyjanitor package is a python implementation of the same package. You can call clean_names() on any pandas dataframe to accomplish the same result.
+In python, the `pyjanitor` package is a python implementation of the same package. You can call `clean_names()` on any pandas dataframe to accomplish the same result.

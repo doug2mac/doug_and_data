@@ -58,9 +58,16 @@ keywords:
 <li>Use delimiters to separate key pieces of information (_ or -) - Use underscores (_) to separate units of meta-data</li>
 <li>Use hyphens (-), also called slugs, to separate words of the same meta-data</li>
 </ul>
-<p>Example : In the below example, we see that the files take the following format
-- {date}<em>{client}</em>{source}_{description}.csv</p>
+<p>Example : In the below example, we see that the files take the following format</p>
+<ul>
+<li>{date}<em>{client}</em>{source}_{description}.csv</li>
+</ul>
 <pre class="r"><code>list.files(&#39;~/Downloads/example&#39;)</code></pre>
+<pre><code>##  [1] &quot;2020-01-01_client_a_data.csv&quot; &quot;2020-02-01_client_b_data.csv&quot;
+##  [3] &quot;2020-03-01_client_c_data.csv&quot; &quot;2020-04-01_client_d_data.csv&quot;
+##  [5] &quot;2020-05-01_client_e_data.csv&quot; &quot;2020-06-01_client_f_data.csv&quot;
+##  [7] &quot;2020-07-01_client_g_data.csv&quot; &quot;2020-08-01_client_h_data.csv&quot;
+##  [9] &quot;2020-09-01_client_i_data.csv&quot; &quot;2020-10-01_client_j_data.csv&quot;</code></pre>
 <ul>
 <li>The files are ordered chronologically by default</li>
 <li>The combination of underscores and hyphens not only make it easy to read, but can be used to parse the files themselves into meta-data if needed</li>
@@ -258,11 +265,15 @@ csv
 </div>
 <div id="orders-by-default" class="section level3">
 <h3>Orders by Default</h3>
-<p>Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits.
-- 01_pull-data.py, 02_clean-data.py</p>
-<p>This is done so that it appears before 10_visualize-model.py in a file list.
-- All dates should follow the format: YYYY-MM-DD
-- This is the ISO 8601 standard for dates</p>
+<p>Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits.</p>
+<ul>
+<li>01_pull-data.py, 02_clean-data.py</li>
+</ul>
+<p>This is done so that it appears before 10_visualize-model.py in a file list.</p>
+<ul>
+<li>All dates should follow the format: YYYY-MM-DD</li>
+<li>This is the ISO 8601 standard for dates</li>
+</ul>
 </div>
 <div id="naming-variables" class="section level3">
 <h3>Naming Variables</h3>
@@ -286,12 +297,14 @@ paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code>
 <p>Your code will be read more times than it is initially written, so prioritize ease of reading variable names over speed of typing. Don’t worry about lengthy variable names, let auto-completion in your IDE or editor of choice handle the rest!</p>
 <pre class="r"><code>paid_media_impressions = affiliate_impressions + display_impressions + paid_search_impressions + social_impressions
 paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code></pre>
-<p>There are several common abbreviations that can help the reader understand what the variables represent:
-- avg: for average
-- max: for maximum
-- min: for minimum
-- std: for standard deviation
-- sum: for the summation of a value per a given time period or index</p>
+<p>There are several common abbreviations that can help the reader understand what the variables represent:</p>
+<ul>
+<li>avg: for average</li>
+<li>max: for maximum</li>
+<li>min: for minimum</li>
+<li>std: for standard deviation</li>
+<li>sum: for the summation of a value per a given time period or index</li>
+</ul>
 <p>Best practice is to put the abbreviations at the end of the name</p>
 </div>
 <div id="be-consistent" class="section level3">
@@ -325,10 +338,6 @@ paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code>
 <td>Promotional Factors</td>
 <td>promo</td>
 </tr>
-<tr class="even">
-<td>————-</td>
-<td>——</td>
-</tr>
 </tbody>
 </table>
 <p>Much like files, common prefixes can make it much easier to select groups of variables at one time. It also provides self-documentation, as the user can understand the roles that the variables play in the analysis</p>
@@ -347,8 +356,8 @@ paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code>
 <h2>Conventions in practice</h2>
 <div id="when-to-prioritize-the-conventions" class="section level3">
 <h3>When to prioritize the conventions</h3>
-<p>When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the janitor packages has the function clean_names() that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed</p>
-<p>In python, the pyjanitor package is a python implementation of the same package. You can call clean_names() on any pandas dataframe to accomplish the same result.</p>
+<p>When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the <code>janitor</code> packages has the function <code>clean_names()</code> that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed</p>
+<p>In python, the <code>pyjanitor</code> package is a python implementation of the same package. You can call <code>clean_names()</code> on any pandas dataframe to accomplish the same result.</p>
 </div>
 </div>
 </div>
