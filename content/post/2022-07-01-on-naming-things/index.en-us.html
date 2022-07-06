@@ -2,8 +2,8 @@
 title: On Naming Things
 author: Doug MacDonald
 date: '2022-07-01'
-slug: index.en-us
-thumbnailImage: '/images/mta/mta_thumbnail.png'
+slug: on-naming-things
+thumbnailImage: '/images/naming_things.png'
 thumbnailImagePosition: left
 categories:
   - info
@@ -20,3 +20,331 @@ keywords:
 
 
 <!--more-->
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<ul>
+<li>This document serves as a resource on naming conventions and best practices</li>
+<li>It was written with two large inspirations
+<ul>
+<li>Jenny Bryan’s lecture on naming files: <a href="http://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf">Slides</a></li>
+<li>Experiences in Data Science, and working with distributed teams</li>
+</ul></li>
+<li>The purpose of naming conventions, and standardized format, is to promote a common language and understanding of code and data</li>
+<li>Maintaining meta-data is wonderful in practice, but it takes a lot of time. It does not have a directly visible pay off. As a result, it is often pushed to the side, until disaster strikes, and a misuse of the data is presented in an analysis or incorporated into a model.</li>
+<li>Standardized naming conventions for files and code can aide in meta-data generation and data documentation, without piling on lots of extra for the Data Scientist</li>
+<li>Where it is even better than a meta-data document, is that the meta-data is captured within the data itself (through file names, and variable names in the data).</li>
+<li><em>Note</em>: <strong>This does not replace the need for a data dictionary, or a project brief. It is a tool to help facilitate self-documentation when these pieces may be absent</strong></li>
+</ul>
+</div>
+<div id="naming-files" class="section level1">
+<h1>Naming Files</h1>
+<div id="the-three-principles-for-naming-files" class="section level2">
+<h2>The three principles for naming files</h2>
+<ol style="list-style-type: decimal">
+<li>Machine Readable</li>
+<li>Human Readable</li>
+<li>Orders by default</li>
+</ol>
+<div id="machine-readable" class="section level3">
+<h3>Machine Readable</h3>
+<p>Machine readable file names are those that can be easily read in, and parsed by operating systems, programming languages, and other software. To accomplish this, there are a few guidelines:</p>
+<ul>
+<li>Do not use spaces, punctuation (, / . ; ’ , etc.), or accented characters</li>
+<li>Use all lower case characters</li>
+<li>Use delimiters to separate key pieces of information (_ or -) - Use underscores (_) to separate units of meta-data</li>
+<li>Use hyphens (-), also called slugs, to separate words of the same meta-data</li>
+</ul>
+<p>Example : In the below example, we see that the files take the following format
+- {date}<em>{client}</em>{source}_{description}.csv</p>
+<pre class="r"><code>list.files(&#39;~/Downloads/example&#39;)</code></pre>
+<ul>
+<li>The files are ordered chronologically by default</li>
+<li>The combination of underscores and hyphens not only make it easy to read, but can be used to parse the files themselves into meta-data if needed</li>
+</ul>
+<pre class="r"><code>stringr::str_split_fixed(myfiles, &quot;[_\\.]&quot;,5) |&gt; kableExtra::kable()</code></pre>
+<table>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020-01-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-02-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-03-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+c
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+d
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-05-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+e
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-06-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+f
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-07-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+g
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-08-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+h
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-09-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+i
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-10-01
+</td>
+<td style="text-align:left;">
+client
+</td>
+<td style="text-align:left;">
+j
+</td>
+<td style="text-align:left;">
+data
+</td>
+<td style="text-align:left;">
+csv
+</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Now we can see each piece of meta-data contained in the files - This now becomes much easier to search for types of files, narrow large lists based upon their names, and extract info from the names themselves</li>
+</ul>
+</div>
+<div id="human-readable" class="section level3">
+<h3>Human Readable</h3>
+<p>The other half of the equation, is to ensure that the file names are easily readable by those who are going to use them Here are a few tips on how:</p>
+<ul>
+<li>The names of your files should contain information on the content within the file</li>
+<li>Embrace the use of hyphens, also known as “slugs” in the file-name. It helps to break up words without the use of spaces (breaking some programming languages)</li>
+<li>For example:
+<ul>
+<li>2021-11-15_doug_full-mmm-data.csv</li>
+</ul></li>
+</ul>
+</div>
+<div id="orders-by-default" class="section level3">
+<h3>Orders by Default</h3>
+<p>Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits.
+- 01_pull-data.py, 02_clean-data.py</p>
+<p>This is done so that it appears before 10_visualize-model.py in a file list.
+- All dates should follow the format: YYYY-MM-DD
+- This is the ISO 8601 standard for dates</p>
+</div>
+<div id="naming-variables" class="section level3">
+<h3>Naming Variables</h3>
+<p>Many of the principles we have covered in the file naming conventions carry over to naming variables in a dataset. There are 3 key naming conventions to keep in mind when naming variables in an analysis or data pipeline:</p>
+<ul>
+<li>Be descriptive.</li>
+<li>Be kind to the reader.</li>
+<li>Be consistent.</li>
+</ul>
+<p>A Variable name should describe the item. The variable name must describe the information represented by the variable. A variable name should tell you concisely in words what the variable stands for, and how it is measured. This isn’t easy! And it takes practice.</p>
+<p>Lets look at a couple examples. Below we have a daily average computed for 4 different channels.</p>
+<pre class="r"><code>total = a + b + c + d
+final = total / num_days</code></pre>
+<p>Looking at the code block above, it is not clear what is happening, the sources of each variable, and what they represent. Compare that to the code block below:</p>
+<pre class="r"><code>paid_media_impressions = affiliate_impressions + display_impressions + paid_search_impressions + social_impressions
+paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code></pre>
+<p>In the above code block, it is clear what channels the variables represent, and the metric from the respective channels. While the names are longer, it is very clear to the reader what the spirit of the variables and calculations are. The code becomes “self-documenting”. If a channel is missing, it is clear which channels are already included. If there is an error in the calculation, it is clear what each section of code is trying to accomplish.</p>
+</div>
+<div id="be-kind-to-the-reader" class="section level3">
+<h3>Be kind to the reader</h3>
+<p>Your code will be read more times than it is initially written, so prioritize ease of reading variable names over speed of typing. Don’t worry about lengthy variable names, let auto-completion in your IDE or editor of choice handle the rest!</p>
+<pre class="r"><code>paid_media_impressions = affiliate_impressions + display_impressions + paid_search_impressions + social_impressions
+paid_media_impressions_daily_avg = paid_media_impressions / days_in_month</code></pre>
+<p>There are several common abbreviations that can help the reader understand what the variables represent:
+- avg: for average
+- max: for maximum
+- min: for minimum
+- std: for standard deviation
+- sum: for the summation of a value per a given time period or index</p>
+<p>Best practice is to put the abbreviations at the end of the name</p>
+</div>
+<div id="be-consistent" class="section level3">
+<h3>Be consistent</h3>
+<p>Adopt standard conventions for naming so you can make one global decision in a codebase instead of multiple local decisions. For example, standard naming conventions for large datasets like those created for Media Mix Models can be expressed in the table below:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable Type</th>
+<th>Prefix</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Paid Media</td>
+<td>paid</td>
+</tr>
+<tr class="even">
+<td>Organic Traffic</td>
+<td>organic</td>
+</tr>
+<tr class="odd">
+<td>Competitor Data</td>
+<td>competitor</td>
+</tr>
+<tr class="even">
+<td>External Factors</td>
+<td>external</td>
+</tr>
+<tr class="odd">
+<td>Promotional Factors</td>
+<td>promo</td>
+</tr>
+<tr class="even">
+<td>————-</td>
+<td>——</td>
+</tr>
+</tbody>
+</table>
+<p>Much like files, common prefixes can make it much easier to select groups of variables at one time. It also provides self-documentation, as the user can understand the roles that the variables play in the analysis</p>
+</div>
+</div>
+<div id="introductions-in-scripts" class="section level2">
+<h2>Introductions in Scripts</h2>
+<p>Another great practice is to provide a brief introduction to the script via comments At a minimum we should include:</p>
+<ul>
+<li>1-2 sentences about what the script accomplishes</li>
+<li>The author of the script</li>
+<li>Any parameters that need to be manually changed in order for the script to run should be highlighted in the beginning of the script</li>
+</ul>
+</div>
+<div id="conventions-in-practice" class="section level2">
+<h2>Conventions in practice</h2>
+<div id="when-to-prioritize-the-conventions" class="section level3">
+<h3>When to prioritize the conventions</h3>
+<p>When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the janitor packages has the function clean_names() that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed</p>
+<p>In python, the pyjanitor package is a python implementation of the same package. You can call clean_names() on any pandas dataframe to accomplish the same result.</p>
+</div>
+</div>
+</div>

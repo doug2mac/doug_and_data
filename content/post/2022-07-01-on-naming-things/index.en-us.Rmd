@@ -2,8 +2,8 @@
 title: On Naming Things
 author: Doug MacDonald
 date: '2022-07-01'
-slug: index.en-us
-thumbnailImage: '/images/mta/mta_thumbnail.png'
+slug: on-naming-things
+thumbnailImage: '/images/naming_things.png'
 thumbnailImagePosition: left
 categories:
   - info
@@ -18,3 +18,152 @@ keywords:
 ---
 
 <!--more-->
+```{r setup, include=FALSE}
+myfiles <- c(
+ '2020-01-01_client_a_data.csv'
+,'2020-02-01_client_b_data.csv'
+,'2020-03-01_client_c_data.csv'
+,'2020-04-01_client_d_data.csv'
+,'2020-05-01_client_e_data.csv'
+,'2020-06-01_client_f_data.csv'
+,'2020-07-01_client_g_data.csv'
+,'2020-08-01_client_h_data.csv'
+,'2020-09-01_client_i_data.csv'
+,'2020-10-01_client_j_data.csv'
+)
+```
+
+# Introduction 
+
+- This document serves as a resource on naming conventions and best practices 
+- It was written with two large inspirations 
+    - Jenny Bryan’s lecture on naming files: [Slides](http://www2.stat.duke.edu/~rcs46/lectures_2015/01-markdown-git/slides/naming-slides/naming-slides.pdf)
+    - Experiences in Data Science, and working with distributed teams 
+- The purpose of naming conventions, and standardized format, is to promote a common language and understanding of code and data 
+- Maintaining meta-data is wonderful in practice, but it takes a lot of time. It does not have a directly visible pay off. As a result, it is often pushed to the side, until disaster strikes, and a misuse of the data is presented in an analysis or incorporated into a model. 
+- Standardized naming conventions for files and code can aide in meta-data generation and data documentation, without piling on lots of extra for the Data Scientist 
+- Where it is even better than a meta-data document, is that the meta-data is captured within the data itself (through file names, and variable names in the data). 
+- *Note*: __This does not replace the need for a data dictionary, or a project brief. It is a tool to help facilitate self-documentation when these pieces may be absent__
+
+# Naming Files 
+
+## The three principles for naming files 
+
+1. Machine Readable 
+2. Human Readable 
+3. Orders by default 
+
+### Machine Readable 
+Machine readable file names are those that can be easily read in, and parsed by operating systems, programming languages, and other software. To accomplish this, there are a few guidelines:
+
+- Do not use spaces, punctuation (, / . ; ’ , etc.), or accented characters 
+- Use all lower case characters 
+- Use delimiters to separate key pieces of information (_ or -) - Use underscores (_) to separate units of meta-data 
+- Use hyphens (-), also called slugs, to separate words of the same meta-data 
+
+Example : In the below example, we see that the files take the following format 
+- {date}_{client}_{source}_{description}.csv 
+
+```{r, eval=FALSE}
+list.files('~/Downloads/example')
+```
+```{r, include=FALSE}
+myfiles
+```
+
+- The files are ordered chronologically by default 
+- The combination of underscores and hyphens not only make it easy to read, but can be used to parse the files themselves into meta-data if needed 
+
+```{r}
+stringr::str_split_fixed(myfiles, "[_\\.]",5) |> kableExtra::kable()
+```
+
+- Now we can see each piece of meta-data contained in the files - This now becomes much easier to search for types of files, narrow large lists based upon their names, and extract info from the names themselves 
+
+### Human Readable 
+The other half of the equation, is to ensure that the file names are easily readable by those who are going to use them Here are a few tips on how: 
+
+- The names of your files should contain information on the content within the file 
+- Embrace the use of hyphens, also known as “slugs” in the file-name. It helps to break up words without the use of spaces (breaking some programming languages) 
+- For example: 
+    - 2021-11-15_doug_full-mmm-data.csv 
+
+### Orders by Default 
+Beginning filenames with the date, or a number that signifies the order of the files, ensures that the files sort correctly by default. If you are numbering files, be sure to left pad the number with a 0 for the first 9 digits. 
+- 01_pull-data.py, 02_clean-data.py 
+
+This is done so that it appears before 10_visualize-model.py in a file list.
+- All dates should follow the format: YYYY-MM-DD 
+- This is the ISO 8601 standard for dates 
+
+### Naming Variables 
+Many of the principles we have covered in the file naming conventions carry over to naming variables in a dataset. There are 3 key naming conventions to keep in mind when naming variables in an analysis or data pipeline: 
+
+- Be descriptive. 
+- Be kind to the reader. 
+- Be consistent. 
+
+A Variable name should describe the item. The variable name must describe the information represented by the variable. A variable name should tell you concisely in words what the variable stands for, and how it is measured. This isn’t easy! And it takes practice. 
+
+Lets look at a couple examples. Below we have a daily average computed for 4 different channels.
+
+```{r, eval=FALSE}
+total = a + b + c + d
+final = total / num_days
+```
+
+Looking at the code block above, it is not clear what is happening, the sources of each variable, and what they represent. Compare that to the code block below:
+
+```{r, eval=FALSE}
+paid_media_impressions = affiliate_impressions + display_impressions + paid_search_impressions + social_impressions
+paid_media_impressions_daily_avg = paid_media_impressions / days_in_month
+```
+
+In the above code block, it is clear what channels the variables represent, and the metric from the respective channels. While the names are longer, it is very clear to the reader what the spirit of the variables and calculations are. The code becomes “self-documenting”. If a channel is missing, it is clear which channels are already included. If there is an error in the calculation, it is clear what each section of code is trying to accomplish. 
+
+### Be kind to the reader 
+
+Your code will be read more times than it is initially written, so prioritize ease of reading variable names over speed of typing. Don’t worry about lengthy variable names, let auto-completion in your IDE or editor of choice handle the rest! 
+
+```{r, eval=FALSE}
+paid_media_impressions = affiliate_impressions + display_impressions + paid_search_impressions + social_impressions
+paid_media_impressions_daily_avg = paid_media_impressions / days_in_month
+```
+
+There are several common abbreviations that can help the reader understand what the variables represent: 
+ - avg: for average 
+ - max: for maximum 
+ - min: for minimum 
+ - std: for standard deviation 
+ - sum: for the summation of a value per a given time period or index 
+
+Best practice is to put the abbreviations at the end of the name 
+
+### Be consistent 
+Adopt standard conventions for naming so you can make one global decision in a codebase instead of multiple local decisions. For example, standard naming conventions for large datasets like those created for Media Mix Models can be expressed in the table below:
+
+|Variable Type|Prefix|
+|-------------|------|
+|Paid Media | paid |
+|Organic Traffic | organic |
+|Competitor Data | competitor |
+|External Factors | external |
+|Promotional Factors | promo |
+|-------------|------|
+
+
+Much like files, common prefixes can make it much easier to select groups of variables at one time. It also provides self-documentation, as the user can understand the roles that the variables play in the analysis 
+
+## Introductions in Scripts
+Another great practice is to provide a brief introduction to the script via comments At a minimum we should include:
+
+- 1-2 sentences about what the script accomplishes
+- The author of the script
+- Any parameters that need to be manually changed in order for the script to run should be highlighted in the beginning of the script
+
+## Conventions in practice 
+
+### When to prioritize the conventions 
+When there are adhoc analyses, it may not be worth the effort to employ these best practices. There are several packages in both R and Python that help to make this process easier. In R, the janitor packages has the function clean_names() that you can call on a dataframe. The result, is the removal of any case-sensitivity, spaces are replaced with underscore, trailing spaces are removed, and any special characters are removed 
+
+In python, the pyjanitor package is a python implementation of the same package. You can call clean_names() on any pandas dataframe to accomplish the same result.
